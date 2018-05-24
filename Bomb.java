@@ -5,4 +5,5 @@
 class Bomb {
   private int blastRange;
   
+  //TODO: Throw bomb and update position
 }
