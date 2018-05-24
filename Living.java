@@ -3,6 +3,9 @@
  */
 
 abstract public class Living{
-  int health;
+  private int health;
   
+  void setHealth(int health){
+    this.health=health;
+  }
 }

@@ -9,7 +9,7 @@ class Human extends Living{
   int crateCap;
   
   Human(){
-    super.health=3;
+    setHealth(3);
     bombCap=1;
     kickable=false;
     throwable=false;
