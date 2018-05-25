@@ -1,2 +1,2 @@
-# ICS3U6Final
-A Bomberman game in Java
+# Dastardly Detonator
+A Bomberman game made in Java for ICS3U6
