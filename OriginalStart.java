@@ -13,10 +13,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingUtilities;
 import java.awt.Toolkit;
 
-class StartScreen{
+class StartScreen extends JFrame{
   
   public static void main(String[] args) {
     new StartScreen();
@@ -58,7 +57,7 @@ class StartScreen{
   static class clickButtonListener implements ActionListener {  
     public void actionPerformed(ActionEvent event)  {
       bFrame.dispose();
-      new GameFrame();
+      new PlayingField();
     }
   }
 }
