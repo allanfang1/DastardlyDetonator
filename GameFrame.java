@@ -78,6 +78,9 @@ class GameFrame extends JFrame {
       frameRate = new FrameRate();
       box = new MovingBox();
       clock = new Clock();
+      addKeyListener(this);
+      setFocusable(true);
+      requestFocusInWindow();
     }
 
     public void paintComponent(Graphics g) {
@@ -89,7 +92,7 @@ class GameFrame extends JFrame {
       //update the content
       clock.update();
       frameRate.update();
-      box.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
+      //box.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
 
       //draw the screen
       box.draw(g);
@@ -106,7 +109,7 @@ class GameFrame extends JFrame {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
         System.out.println("W");
-        box.move(0);
+        box.move(2);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
         System.out.println("D");
@@ -114,7 +117,7 @@ class GameFrame extends JFrame {
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
         System.out.println("S");
-        box.move(2);
+        box.move(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
         System.out.println("A");
@@ -134,119 +137,117 @@ class GameFrame extends JFrame {
 //private class MyKeyListener implements KeyListener { } //end of keyboard listener
 
 // -----------  Inner class for the keyboard listener - This detects mouse movement & clicks and runs the corresponding methods
-private class MyMouseListener implements MouseListener {
+  private class MyMouseListener implements MouseListener {
 
-  public void mouseClicked(MouseEvent e) {
-    System.out.println("Mouse Clicked");
-    System.out.println("X:"+e.getX() + " y:"+e.getY());
-  }
+    public void mouseClicked(MouseEvent e) {
+      System.out.println("Mouse Clicked");
+      System.out.println("X:"+e.getX() + " y:"+e.getY());
+    }
 
-  public void mousePressed(MouseEvent e) {
-  }
+    public void mousePressed(MouseEvent e) {
+    }
 
-  public void mouseReleased(MouseEvent e) {
-  }
+    public void mouseReleased(MouseEvent e) {
+    }
 
-  public void mouseEntered(MouseEvent e) {
-  }
+    public void mouseEntered(MouseEvent e) {
+    }
 
-  public void mouseExited(MouseEvent e) {
-  }
-} //end of mouselistener
+    public void mouseExited(MouseEvent e) {
+    }
+  } //end of mouselistener
 
 //A class to track time
 
-class Clock {
-  long elapsedTime;
-  long lastTimeCheck;
+  class Clock {
+    long elapsedTime;
+    long lastTimeCheck;
 
-  public Clock() {
-    lastTimeCheck=System.nanoTime();
-    elapsedTime=0;
-  }
+    public Clock() {
+      lastTimeCheck=System.nanoTime();
+      elapsedTime=0;
+    }
 
-  public void update() {
-    long currentTime = System.nanoTime();  //if the computer is fast you need more precision
-    elapsedTime=currentTime - lastTimeCheck;
-    lastTimeCheck=currentTime;
-  }
+    public void update() {
+      long currentTime = System.nanoTime();  //if the computer is fast you need more precision
+      elapsedTime=currentTime - lastTimeCheck;
+      lastTimeCheck=currentTime;
+    }
 
-  //return elapsed time in milliseconds
-  public double getElapsedTime() {
-    return elapsedTime/1.0E9;
+    //return elapsed time in milliseconds
+    public double getElapsedTime() {
+      return elapsedTime/1.0E9;
+    }
   }
-}
 
 
 //A class to represent the object moving around on the screen
-class MovingBox {
-  double xPosition;
-  double yPosition;
-  double xSpeed;
+  class MovingBox {
+    double xPosition;
+    double yPosition;
+    double xSpeed;
 
-  public MovingBox() {
-    xPosition = 0;
-    yPosition = 50;
-    xSpeed=1;
-  }
-
-  public void update(double elapsedTime){
-    //update the content
-    if (xPosition<0) xSpeed=1;
-    else if (xPosition>1000) xSpeed=-1;
-    xPosition = xPosition + xSpeed * elapsedTime * 100;  //d = d0 + vt
-    //System.out.println(elapsedTime*10+"\n");
-  }
-
-  public void draw(Graphics g) {
-    g.setColor(Color.BLUE); //There are many graphics commands that Java can use
-    g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
-  }
-
-  public void move(int direction) {
-    if (direction == 0) {
-      this.yPosition++;
+    public MovingBox() {
+      xPosition = 0;
+      yPosition = 50;
+      xSpeed=1;
     }
-    else if (direction == 1) {
-      this.xPosition++;
+
+    /*public void update(double elapsedTime){
+      //update the content
+      if (xPosition<0) xSpeed=1;
+      else if (xPosition>1000) xSpeed=-1;
+      xPosition = xPosition + xSpeed * elapsedTime * 100;  //d = d0 + vt
+      //System.out.println(elapsedTime*10+"\n");
+    }*/
+
+    public void draw(Graphics g) {
+      g.setColor(Color.BLUE); //There are many graphics commands that Java can use
+      g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
     }
-    else if (direction == 2) {
-      this.yPosition--;
-    }
-    else {
-      this.xPosition--;
-    }
-  }
-}
 
-//Better to abstract the FrameRate stuff
-class FrameRate {
-
-  String frameRate; //to display the frame rate to the screen
-  long lastTimeCheck; //store the time of the last time the time was recorded
-  long deltaTime; //to keep the elapsed time between current time and last time
-  int frameCount; //used to cound how many frame occurred in the elasped time (fps)
-
-  public FrameRate() {
-    lastTimeCheck = System.currentTimeMillis();
-    frameCount=0;
-    frameRate="0 fps";
-  }
-
-  public void update() {
-    long currentTime = System.currentTimeMillis();  //get the current time
-    deltaTime += currentTime - lastTimeCheck; //add to the elapsed time
-    lastTimeCheck = currentTime; //update the last time var
-    frameCount++; // everytime this method is called it is a new frame
-    if (deltaTime>=1000) { //when a second has passed, update the string message
-      frameRate = frameCount + " fps" ;
-      frameCount=0; //reset the number of frames since last update
-      deltaTime=0;  //reset the elapsed time
+    public void move(int direction) {
+      if (direction == 0) {
+        this.yPosition += 5;
+      }
+      else if (direction == 1) {
+        this.xPosition += 5;
+      }
+      else if (direction == 2) {
+        this.yPosition -= 5;
+      }
+      else {
+        this.xPosition -= 5;
+      }
     }
   }
-  public void draw(Graphics g, int x, int y) {
-    g.drawString(frameRate,x,y); //display the frameRate
-  }
-}
+  //Better to abstract the FrameRate stuff
+  class FrameRate {
 
+    String frameRate; //to display the frame rate to the screen
+    long lastTimeCheck; //store the time of the last time the time was recorded
+    long deltaTime; //to keep the elapsed time between current time and last time
+    int frameCount; //used to cound how many frame occurred in the elasped time (fps)
+
+    public FrameRate() {
+      lastTimeCheck = System.currentTimeMillis();
+      frameCount=0;
+      frameRate="0 fps";
+    }
+
+    public void update() {
+      long currentTime = System.currentTimeMillis();  //get the current time
+      deltaTime += currentTime - lastTimeCheck; //add to the elapsed time
+      lastTimeCheck = currentTime; //update the last time var
+      frameCount++; // everytime this method is called it is a new frame
+      if (deltaTime>=1000) { //when a second has passed, update the string message
+        frameRate = frameCount + " fps" ;
+        frameCount=0; //reset the number of frames since last update
+        deltaTime=0;  //reset the elapsed time
+      }
+    }
+    public void draw(Graphics g, int x, int y) {
+      g.drawString(frameRate,x,y); //display the frameRate
+    }
+  }
 }
