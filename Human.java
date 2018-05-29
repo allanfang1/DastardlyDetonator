@@ -7,13 +7,12 @@ class Human extends Living{
   boolean kickable;
   boolean throwable;
   int crateCap;
-  
-  Human(){
-    setHealth(3);
+
+  Human(int newHealth, double newX, double newY) {
+    super(newHealth, newX, newY);
     bombCap=1;
     kickable=false;
     throwable=false;
     crateCap=0;
   }
-  
 }
