@@ -76,7 +76,21 @@ class GameFrame extends JFrame {
     }
 
     public void paintComponent(Graphics g) {
-      
+      super.paintComponent(g); //required
+      setDoubleBuffered(true);
+      g.setColor(Color.RED); //There are many graphics commands that Java can use
+
+      //update the content
+      clock.update();
+      frameRate.update();
+      //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
+
+      //draw the screen
+      player1.draw(g);
+      player1.move(clock.getElapsedTime());
+      frameRate.draw(g,10,10);
+
+      //request a repaint
       repaint();
     }
 
