@@ -22,7 +22,8 @@ import java.awt.event.MouseEvent;
 class GameFrame extends JFrame {
 
   static GameAreaPanel gamePanel;
-
+  static JFrame gameFrame;
+  
   GameFrame() {
     super("My Game");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,8 +40,9 @@ class GameFrame extends JFrame {
      this.addMouseListener(mouseListener);
      */
 
-    this.requestFocusInWindow(); //make sure the frame has focus
+    this.requestFocusInWindow();
     this.setVisible(true);
+    gameFrame=this;
 
     //Start the game loop in a separate thread
     Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop
@@ -51,9 +53,6 @@ class GameFrame extends JFrame {
   //the main gameloop - this is where the game state is updated
   public void animate() {
     while(true){
-      /*this.x = (Math.random()*1024);  //update coords
-       this.y = (Math.random()*768);
-       try{ Thread.sleep(500);} catch (Exception exc){}  //delay*/
       this.repaint();
     }
   }
@@ -77,22 +76,7 @@ class GameFrame extends JFrame {
     }
 
     public void paintComponent(Graphics g) {
-      super.paintComponent(g); //required
-      setDoubleBuffered(true);
-      g.setColor(Color.BLUE); //There are many graphics commands that Java can use
-      //g.fillRect((int)x, (int)y, 50, 50); //notice the x,y variables that we control from our animate method
-
-      //update the content
-      clock.update();
-      frameRate.update();
-      //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
-
-      //draw the screen
-      player1.draw(g);
-      player1.move(clock.getElapsedTime());
-      frameRate.draw(g,10,10);
-
-      //request a repaint
+      
       repaint();
     }
 
@@ -118,7 +102,7 @@ class GameFrame extends JFrame {
         player1.xDirection = -1;
       }
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
-        System.out.println("Esc"); //close frame & quit
+        gameFrame.dispose();
       }
     }
 
