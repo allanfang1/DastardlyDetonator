@@ -21,20 +21,14 @@ import java.awt.event.MouseEvent;
 
 class GameFrame extends JFrame {
 
-  //class variable (non-static)
   static GameAreaPanel gamePanel;
 
-
-  //Constructor - this runs first
   GameFrame() {
     super("My Game");
-    // Set the frame to full screen
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-    // this.setUndecorated(true);  //Set to true to remove title bar
-    //frame.setResizable(false);
+    this.setUndecorated(true);
 
-    //Set up the game panel (where we put our graphics)
     gamePanel = new GameAreaPanel();
     this.add(new GameAreaPanel());
 
@@ -46,14 +40,13 @@ class GameFrame extends JFrame {
      */
 
     this.requestFocusInWindow(); //make sure the frame has focus
-
     this.setVisible(true);
 
     //Start the game loop in a separate thread
     Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop
     t.start();
 
-  } //End of Constructor
+  }
 
   //the main gameloop - this is where the game state is updated
   public void animate() {

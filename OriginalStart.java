@@ -28,6 +28,7 @@ class StartScreen extends JFrame{
     
     bFrame=new JFrame("Bomberman But Not Really");
     bFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+    bFrame.setLocationRelativeTo(null);
     bFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
     JPanel mainPanel=new JPanel();
@@ -57,7 +58,7 @@ class StartScreen extends JFrame{
   static class clickButtonListener implements ActionListener {  
     public void actionPerformed(ActionEvent event)  {
       bFrame.dispose();
-      new PlayingField();
+      new GameFrame();
     }
   }
 }

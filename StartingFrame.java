@@ -26,7 +26,6 @@ class StartingFrame extends JFrame {
     this.setSize(400,700);
     this.setLocationRelativeTo(null); //start the frame in the center of the screen
     //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setResizable (false);
 
     //Create a Panel for stuff
     JPanel mainPanel = new JPanel();
