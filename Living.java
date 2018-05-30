@@ -80,7 +80,7 @@ abstract public class Living{
    * This method returns this object's speed.
    * @return The integer speed of this object.
    */
-  public int getSpeed() {
+  public double getSpeed() {
     return this.speed;
   }
 
@@ -89,7 +89,7 @@ abstract public class Living{
    * This method sets the speed of this object.
    * @param The integer value to set this object's speed to.
    */
-  public void setSpeed(int newSpeed) {
+  public void setSpeed(double newSpeed) {
     this.speed = newSpeed;
   }
 
