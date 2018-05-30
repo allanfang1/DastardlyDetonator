@@ -3,12 +3,18 @@
  */
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Rectangle;
 
 class Human extends Living{
   int bombCap;
   boolean kickable;
   boolean throwable;
   int crateCap;
+  
+  int height=25;
+  int width=25;
+  Rectangle boundingBox;
+  
   
   public double xPosition, yPosition;
   public int xDirection, yDirection;
@@ -26,6 +32,7 @@ class Human extends Living{
     xDirection = 0;
     yDirection = 0;
     speed = 1;
+    boundingBox=new Rectangle((int)xPosition, (int)yPosition, width, height);
   }
   
  /*public void update(double elapsedTime){

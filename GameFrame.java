@@ -63,12 +63,16 @@ class GameFrame extends JFrame {
   private class GameAreaPanel extends JPanel implements KeyListener{
 
     Human player1;
+    Human player2;
+    Wall wall;
     FrameRate frameRate;
     Clock clock;
 
     GameAreaPanel () {
       frameRate = new FrameRate();
       player1 = new Human();
+      player2 = new Human();
+      wall= new Wall();
       clock = new Clock();
       addKeyListener(this);
       setFocusable(true);
@@ -88,6 +92,9 @@ class GameFrame extends JFrame {
       //draw the screen
       player1.draw(g);
       player1.move(clock.getElapsedTime());
+      player2.draw(g);
+      player2.move(clock.getElapsedTime());
+      wall.draw(g);
       frameRate.draw(g,10,10);
 
       //request a repaint
@@ -115,6 +122,22 @@ class GameFrame extends JFrame {
         System.out.println("Move left");
         player1.xDirection = -1;
       }
+      if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
+        System.out.println("Move up");
+        player2.yDirection = -1;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
+        System.out.println("Move right");
+        player2.xDirection = 1;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
+        System.out.println("Move down");
+        player2.yDirection = 1;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
+        System.out.println("Move left");
+        player2.xDirection = -1;
+      }
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
         gameFrame.dispose();
       }
@@ -137,6 +160,22 @@ class GameFrame extends JFrame {
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
         System.out.println("Move left");
         player1.xDirection = 0;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
+        System.out.println("Move up");
+        player2.yDirection = 0;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
+        System.out.println("Move right");
+        player2.xDirection = 0;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
+        System.out.println("Move down");
+        player2.yDirection = 0;
+      }
+      if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
+        System.out.println("Move left");
+        player2.xDirection = 0;
       }
     }
   }
