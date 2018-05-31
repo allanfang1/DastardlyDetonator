@@ -5,18 +5,19 @@ class Powerup {
    * 2 = max bombs
    * 3 = explosion range
    * 4 = throw range
+   * 5 = temporary crate
    */
-  
+
   private int powerupID;
-  
+
   Powerup() {
     this.powerupID = 0;
   }
-  
+
   Powerup(int setPowerup) {
     this.powerupID = setPowerup;
   }
-  
+
   /**
    * getPowerup
    * This method returns this powerup's ID.
@@ -25,7 +26,7 @@ class Powerup {
   int getPowerup() {
     return this.powerupID;
   }
-  
+
   /**
    * setPowerup
    * This method sets the ID of this powerup.
