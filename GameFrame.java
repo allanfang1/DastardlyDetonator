@@ -70,8 +70,8 @@ class GameFrame extends JFrame {
 
     GameAreaPanel () {
       frameRate = new FrameRate();
-      player1 = new Human();
-      player2 = new Human();
+      player1 = new Human(0, 50, 25, 25);
+      player2 = new Human(0, 100,25 ,25);
       wall= new Wall();
       clock = new Clock();
       addKeyListener(this);
@@ -91,9 +91,11 @@ class GameFrame extends JFrame {
 
       //draw the screen
       player1.draw(g);
+      crashOne(player1.axis);
       player1.move(clock.getElapsedTime());
       player2.draw(g);
       player2.move(clock.getElapsedTime());
+      
       wall.draw(g);
       frameRate.draw(g,10,10);
 
@@ -106,75 +108,72 @@ class GameFrame extends JFrame {
 
     public void keyPressed(KeyEvent e) {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
+      
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-        System.out.println("Move up");
         player1.yDirection = -1;
+        player1.axis = 1;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-        System.out.println("Move right");
         player1.xDirection = 1;
+        player1.axis = 0;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
-        System.out.println("Move down");
         player1.yDirection = 1;
+        player1.axis = 1;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
-        System.out.println("Move left");
         player1.xDirection = -1;
+        player1.axis = 0;
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
-        System.out.println("Move up");
         player2.yDirection = -1;
       }
       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
-        System.out.println("Move right");
         player2.xDirection = 1;
       }
       if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
-        System.out.println("Move down");
         player2.yDirection = 1;
       }
       if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
-        System.out.println("Move left");
         player2.xDirection = -1;
       }
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
         gameFrame.dispose();
       }
     }
+    
+    public void crashOne(int axis){
+      if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(wall.boundingBox)) && axis==0){
+        player1.xDirection = 0;
+      } else if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(wall.boundingBox))){
+        player1.yDirection = 0;
+      }
+    }
 
 
     public void keyReleased(KeyEvent e) {
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-        System.out.println("Move up");
         player1.yDirection = 0;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-        System.out.println("Move right");
         player1.xDirection = 0;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
-        System.out.println("Move down");
         player1.yDirection = 0;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
-        System.out.println("Move left");
         player1.xDirection = 0;
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
-        System.out.println("Move up");
         player2.yDirection = 0;
       }
       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
-        System.out.println("Move right");
         player2.xDirection = 0;
       }
       if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
-        System.out.println("Move down");
         player2.yDirection = 0;
       }
       if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
-        System.out.println("Move left");
         player2.xDirection = 0;
       }
     }
