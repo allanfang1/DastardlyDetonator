@@ -20,7 +20,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
 class GameFrame extends JFrame {
-
+  
   static GameAreaPanel gamePanel;
   static JFrame gameFrame;
   
@@ -29,39 +29,39 @@ class GameFrame extends JFrame {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     this.setUndecorated(true);
-
+    
     gamePanel = new GameAreaPanel();
     this.add(new GameAreaPanel());
-
+    
     /*MyKeyListener keyListener = new MyKeyListener();
      this.addKeyListener(keyListener);
-
+     
      MyMouseListener mouseListener = new MyMouseListener();
      this.addMouseListener(mouseListener);
      */
-
+    
     this.requestFocusInWindow();
     this.setVisible(true);
     gameFrame=this;
-
+    
     //Start the game loop in a separate thread
     Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop
     t.start();
-
+    
   }
-
+  
   //the main gameloop - this is where the game state is updated
   public void animate() {
     while(true){
       this.repaint();
     }
   }
-
+  
   /** --------- INNER CLASSES ------------- **/
-
+  
   // Inner class for the the game area - This is where all the drawing of the screen occurs
   private class GameAreaPanel extends JPanel implements KeyListener{
-
+    
     Human player1;
     Human player2;
     Wall wall;
@@ -69,7 +69,7 @@ class GameFrame extends JFrame {
     Clock clock;
     Obstruction[][] map;
     int mapSize = 21;
-
+    
     GameAreaPanel () {
       frameRate = new FrameRate();
       player1 = new Human(0, 50, 26, 26);
@@ -93,19 +93,18 @@ class GameFrame extends JFrame {
       setFocusable(true);
       requestFocusInWindow();
     }
-
+    
     public void paintComponent(Graphics g) {
       super.paintComponent(g); //required
       setDoubleBuffered(true);
       g.setColor(Color.RED); //There are many graphics commands that Java can use
-
+      
       //update the content
       clock.update();
       frameRate.update();
       //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
-
+      
       //draw the screen
-      crashOne(player1.axis);
       player1.draw(g);
       player1.move(clock.getElapsedTime());
       player2.draw(g);
@@ -118,34 +117,37 @@ class GameFrame extends JFrame {
         }
       }
       frameRate.draw(g,10,10);
-
+      
       //request a repaint
       repaint();
     }
-
+    
     public void keyTyped(KeyEvent e) {
     }
-
+    
     public void keyPressed(KeyEvent e) {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-      
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-   //    crashOne(player1.axis, player1.crashDir);
+      player1.xDirection=0;
+      player1.yDirection=0;
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("W") && player1.wallWhere1!=1) {  //If 'W' is pressed
         player1.yDirection = -1;
         player1.axis = 1;
-        player1.crashDir = -1;
+        crash(player1.axis, player1.yDirection);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("D") && player1.wallWhere1!=2) {  //If 'D' is pressed
         player1.xDirection = 1;
         player1.axis = 0;
+        crash(player1.axis, player1.xDirection);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("S") && player1.wallWhere1!=3) {  //If 'S' is pressed
         player1.yDirection = 1;
-        player1.axis = 1;
+        player1.axis = 1; 
+        crash(player1.axis, player1.yDirection);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("A") && player1.wallWhere1!=4) {  //If 'A' is pressed
         player1.xDirection = -1;
         player1.axis = 0;
+        crash(player1.axis, player1.xDirection);
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
         player2.yDirection = -1;
@@ -164,21 +166,34 @@ class GameFrame extends JFrame {
       }
     }
     
-    public void crashOne(int axis){
+    public void crash(int axis, int direction){
+      boolean noWall=true;
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
           if (map[x][y] instanceof Wall) {
-            if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(((Wall)map[x][y]).boundingBox)) && axis == 0){
-              player1.xDirection = 0;
-            }
-            else if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(((Wall)map[x][y]).boundingBox))){
-              player1.yDirection = 0;
+            if (player1.boundingBox.intersects(((Wall)map[x][y]).boundingBox)){
+              if (axis==1 && direction==-1){
+                player1.wallWhere1=1;
+                noWall=false;
+              } else if (axis==0 && direction==1){
+                player1.wallWhere1=2;
+                noWall=false;
+              } else if (axis==1 && direction==1){
+                player1.wallWhere1=3;
+                noWall=false;
+              } else if (axis==0 && direction==-1){
+                player1.wallWhere1=4;
+                noWall=false;
+              } 
             }
           }
         }
       }
+      if(noWall==true){
+        player1.wallWhere1=0;
+      }
     }
-
+    
     public void keyReleased(KeyEvent e) {
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
         player1.yDirection = 0;
@@ -206,74 +221,74 @@ class GameFrame extends JFrame {
       }
     }
   }
-
+  
 // -----------  Inner class for the keyboard listener - this detects key presses and runs the corresponding code
 //private class MyKeyListener implements KeyListener { } //end of keyboard listener
-
+  
 // -----------  Inner class for the keyboard listener - This detects mouse movement & clicks and runs the corresponding methods
   private class MyMouseListener implements MouseListener {
-
+    
     public void mouseClicked(MouseEvent e) {
       System.out.println("Mouse Clicked");
       System.out.println("X:"+e.getX() + " y:"+e.getY());
     }
-
+    
     public void mousePressed(MouseEvent e) {
     }
-
+    
     public void mouseReleased(MouseEvent e) {
     }
-
+    
     public void mouseEntered(MouseEvent e) {
     }
-
+    
     public void mouseExited(MouseEvent e) {
     }
   } //end of mouselistener
-
+  
 //A class to track time
-
+  
   class Clock {
     long elapsedTime;
     long lastTimeCheck;
-
+    
     public Clock() {
       lastTimeCheck=System.nanoTime();
       elapsedTime=0;
     }
-
+    
     public void update() {
       long currentTime = System.nanoTime();  //if the computer is fast you need more precision
       elapsedTime=currentTime - lastTimeCheck;
       lastTimeCheck=currentTime;
     }
-
+    
     //return elapsed time in milliseconds
     public double getElapsedTime() {
       return elapsedTime/1.0E9;
     }
   }
-
-
+  
+  
 //A class to represent the object moving around on the screen
   
-    //Move player
-    
+  //Move player
+  
   
   //Better to abstract the FrameRate stuff
   class FrameRate {
-
+    
     String frameRate; //to display the frame rate to the screen
     long lastTimeCheck; //store the time of the last time the time was recorded
     long deltaTime; //to keep the elapsed time between current time and last time
     int frameCount; //used to cound how many frame occurred in the elasped time (fps)
-
+    
     public FrameRate() {
       lastTimeCheck = System.currentTimeMillis();
       frameCount=0;
       frameRate="0 fps";
     }
-
+    
     public void update() {
       long currentTime = System.currentTimeMillis();  //get the current time
       deltaTime += currentTime - lastTimeCheck; //add to the elapsed time
