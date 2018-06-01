@@ -19,6 +19,7 @@ class Human extends Living{
   public double xPosition, yPosition;
   public int xDirection, yDirection;
   public int axis;
+  public int crashDir;
   public double speed;
 
   Human(int x, int y, int width, int height/*int newHealth, double newX, double newY*/) {

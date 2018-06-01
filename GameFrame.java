@@ -70,8 +70,8 @@ class GameFrame extends JFrame {
 
     GameAreaPanel () {
       frameRate = new FrameRate();
-      player1 = new Human(0, 50, 25, 25);
-      player2 = new Human(0, 100,25 ,25);
+      player1 = new Human(0, 50, 26, 26);
+      player2 = new Human(0, 100, 26, 26);
       wall= new Wall();
       clock = new Clock();
       addKeyListener(this);
@@ -90,8 +90,9 @@ class GameFrame extends JFrame {
       //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
 
       //draw the screen
-      player1.draw(g);
+     
       crashOne(player1.axis);
+       player1.draw(g);
       player1.move(clock.getElapsedTime());
       player2.draw(g);
       player2.move(clock.getElapsedTime());
@@ -110,8 +111,10 @@ class GameFrame extends JFrame {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
       
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
+   //    crashOne(player1.axis, player1.crashDir);
         player1.yDirection = -1;
         player1.axis = 1;
+        player1.crashDir = -1;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
         player1.xDirection = 1;
