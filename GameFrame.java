@@ -67,12 +67,27 @@ class GameFrame extends JFrame {
     Wall wall;
     FrameRate frameRate;
     Clock clock;
+    Obstruction[][] map;
+    int mapSize = 21;
 
     GameAreaPanel () {
       frameRate = new FrameRate();
       player1 = new Human(0, 50, 26, 26);
       player2 = new Human(0, 100, 26, 26);
-      wall= new Wall();
+      map = new Wall[mapSize][mapSize];
+      //Generate walls of map
+      for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < mapSize; y++) {
+          //Borders
+          if ((x == 0) || (x == mapSize - 1) || (y == 0) || (y == mapSize - 1)) {
+            map[x][y] = new Wall((x * 25) + 50, (y * 25) + 50);
+          }
+          //Grid
+          else if ((x % 2 == 0) && (y % 2 == 0)) {
+            map[x][y] = new Wall((x * 25) + 50, (y * 25) + 50);
+          }
+        }
+      }
       clock = new Clock();
       addKeyListener(this);
       setFocusable(true);
@@ -90,14 +105,18 @@ class GameFrame extends JFrame {
       //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
 
       //draw the screen
-     
       crashOne(player1.axis);
-       player1.draw(g);
+      player1.draw(g);
       player1.move(clock.getElapsedTime());
       player2.draw(g);
       player2.move(clock.getElapsedTime());
-      
-      wall.draw(g);
+      for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < mapSize; y++) {
+          if (map[x][y] instanceof Wall) {
+            ((Wall)map[x][y]).draw(g);
+          }
+        }
+      }
       frameRate.draw(g,10,10);
 
       //request a repaint
@@ -146,13 +165,19 @@ class GameFrame extends JFrame {
     }
     
     public void crashOne(int axis){
-      if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(wall.boundingBox)) && axis==0){
-        player1.xDirection = 0;
-      } else if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(wall.boundingBox))){
-        player1.yDirection = 0;
+      for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < mapSize; y++) {
+          if (map[x][y] instanceof Wall) {
+            if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(((Wall)map[x][y]).boundingBox)) && axis == 0){
+              player1.xDirection = 0;
+            }
+            else if ((player1.boundingBox.intersects(player2.boundingBox) || player1.boundingBox.intersects(((Wall)map[x][y]).boundingBox))){
+              player1.yDirection = 0;
+            }
+          }
+        }
       }
     }
-
 
     public void keyReleased(KeyEvent e) {
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
