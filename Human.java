@@ -14,7 +14,10 @@ class Human extends Living{
   int height = 25;
   int width = 25;
   
-  public Rectangle boundingBox;
+  public Rectangle upBox;
+  public Rectangle downBox;
+  public Rectangle leftBox;
+  public Rectangle rightBox;
 
   public double xPosition, yPosition;
   public int xDirection, yDirection;
@@ -35,18 +38,39 @@ class Human extends Living{
     xDirection = 0;
     yDirection = 0;
     speed = 1;
-    boundingBox = new Rectangle((int)xPosition, (int)yPosition, width, height);
+    rightBox = new Rectangle(((int)xPosition)+25, (int)yPosition, 1, 25);
+    leftBox = new Rectangle(((int)xPosition), (int)yPosition, 1, 25);
+    upBox = new Rectangle((int)xPosition, ((int)yPosition), 25, 1);
+    downBox = new Rectangle((int)xPosition, ((int)yPosition)+25, 25, 1);
   }
 
   public void draw(Graphics g) {
     g.setColor(Color.RED); //There are many graphics commands that Java can use
     g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
+    g.setColor(Color.BLUE);
+    g.fillRect(((int)xPosition)+25, (int)yPosition, 1, 25);
+    g.fillRect(((int)xPosition), (int)yPosition, 1, 25);
+    g.fillRect((int)xPosition, ((int)yPosition)+25, 25, 1);
+    g.fillRect((int)xPosition, ((int)yPosition), 25, 1);
   }
 
-  public void move(double elapsedTime) {
+  public void moveRight(double elapsedTime) {
     this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
+    rightBox.x=((int)xPosition)+25;
+  }
+  
+  public void moveUp(double elapsedTime) {
     this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
-    boundingBox.x=(int)xPosition;
-    boundingBox.y=(int)yPosition;
+    rightBox.y=(int)yPosition;
+  }
+  
+  public void moveDown(double elapsedTime) {
+    this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
+    rightBox.y=(int)yPosition;
+  }
+  
+  public void moveLeft(double elapsedTime) {
+    this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
+    rightBox.x=((int)xPosition)+25;
   }
 }

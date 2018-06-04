@@ -106,7 +106,15 @@ class GameFrame extends JFrame {
       
       //draw the screen
       player1.draw(g);
-      player1.move(clock.getElapsedTime());
+      whereCrash();
+      if(player1.wallWhere1!=2){
+      player1.moveRight(clock.getElapsedTime());
+      }
+      player1.moveUp(clock.getElapsedTime());
+      player1.moveDown(clock.getElapsedTime());
+      if(player1.xDirection<0){
+      player1.moveLeft(clock.getElapsedTime());
+      }
       player2.draw(g);
       player2.move(clock.getElapsedTime());
       for (int x = 0; x < mapSize; x++) {
@@ -127,27 +135,19 @@ class GameFrame extends JFrame {
     
     public void keyPressed(KeyEvent e) {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-      player1.xDirection=0;
-      player1.yDirection=0;
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W") && player1.wallWhere1!=1) {  //If 'W' is pressed
         player1.yDirection = -1;
-        player1.axis = 1;
-        crash(player1.axis, player1.yDirection);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D") && player1.wallWhere1!=2) {  //If 'D' is pressed
         player1.xDirection = 1;
-        player1.axis = 0;
-        crash(player1.axis, player1.xDirection);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S") && player1.wallWhere1!=3) {  //If 'S' is pressed
         player1.yDirection = 1;
-        player1.axis = 1; 
-        crash(player1.axis, player1.yDirection);
+   //     noCrash();
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A") && player1.wallWhere1!=4) {  //If 'A' is pressed
         player1.xDirection = -1;
-        player1.axis = 0;
-        crash(player1.axis, player1.xDirection);
+    //    noCrash();
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
         player2.yDirection = -1;
@@ -166,25 +166,14 @@ class GameFrame extends JFrame {
       }
     }
     
-    public void crash(int axis, int direction){
+    public void whereCrash(){
       boolean noWall=true;
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
           if (map[x][y] instanceof Wall) {
-            if (player1.boundingBox.intersects(((Wall)map[x][y]).boundingBox)){
-              if (axis==1 && direction==-1){
-                player1.wallWhere1=1;
-                noWall=false;
-              } else if (axis==0 && direction==1){
-                player1.wallWhere1=2;
-                noWall=false;
-              } else if (axis==1 && direction==1){
-                player1.wallWhere1=3;
-                noWall=false;
-              } else if (axis==0 && direction==-1){
-                player1.wallWhere1=4;
-                noWall=false;
-              } 
+            if ((player1.rightBox).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.wallWhere1=2;
+              noWall=false;
             }
           }
         }
