@@ -75,19 +75,19 @@ class GameFrame extends JFrame {
     
     GameAreaPanel () {
       frameRate = new FrameRate();
-      player1 = new Human(0, 50, 26, 26);
-      player2 = new Human(0, 100, 26, 26);
+      player1 = new Human(75, 75, 22);
+      player2 = new Human(75, 125, 22);
       map = new Obstruction[mapSize][mapSize];
       //Generate walls of map
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
           //Borders
           if ((x == 0) || (x == mapSize - 1) || (y == 0) || (y == mapSize - 1)) {
-            map[x][y] = new Wall((x * 25) + 50, (y * 25) + 50);
+            map[x][y] = new Wall((x * tileSize) + xOffset, (y * tileSize) + yOffset);
           }
           //Grid
           else if ((x % 2 == 0) && (y % 2 == 0)) {
-            map[x][y] = new Wall((x * 25) + 50, (y * 25) + 50);
+            map[x][y] = new Wall((x * tileSize) + xOffset, (y * tileSize) + yOffset);
           }
         }
       }
@@ -111,24 +111,24 @@ class GameFrame extends JFrame {
       player1.draw(g);
       whereCrash();
       if(player1.wallWhere1!=2){
-      if(player1.xDirection>0){
-      player1.moveRight(clock.getElapsedTime());
+        if(player1.xDirection>0){
+          player1.moveX(clock.getElapsedTime());
+        }
       }
-      }
-      if(player1.wallWhere1!=1){
-      if(player1.yDirection<0){
-      player1.moveUp(clock.getElapsedTime());
-      }
+      if(player1.wallWhere2!=1){
+        if(player1.yDirection<0){
+          player1.moveY(clock.getElapsedTime());
+        }
       }
       if(player1.wallWhere2!=2){
-      if(player1.yDirection>0){
-      player1.moveDown(clock.getElapsedTime());
-      }
+        if(player1.yDirection>0){
+          player1.moveY(clock.getElapsedTime());
+        }
       }
       if(player1.wallWhere1!=1){
-      if(player1.xDirection<0){
-      player1.moveLeft(clock.getElapsedTime());
-      }
+        if(player1.xDirection<0){
+          player1.moveX(clock.getElapsedTime());
+        }
       }
       player2.draw(g);
       player2.move(clock.getElapsedTime());
@@ -153,21 +153,21 @@ class GameFrame extends JFrame {
     
     public void keyPressed(KeyEvent e) {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("W") && player1.wallWhere1!=1) {  //If 'W' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
         player1.yDirection = -1;
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("D") && player1.wallWhere1!=2) {  //If 'D' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
         player1.xDirection = 1;
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("S") && player1.wallWhere1!=3) {  //If 'S' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
         player1.yDirection = 1;
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("A") && player1.wallWhere1!=4) {  //If 'A' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
         player1.xDirection = -1;
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //If 'C' is pressed
         /*Bomb newBomb = (player1.placeBomb(tileSize, xOffset, yOffset));
-        map[(int)((newBomb.getX() - xOffset) / tileSize)][(int)((newBomb.getY() - yOffset) / tileSize)] = newBomb;*/
+         map[(int)((newBomb.getX() - xOffset) / tileSize)][(int)((newBomb.getY() - yOffset) / tileSize)] = newBomb;*/
         int gridX = (int)(player1.getX() / tileSize) + 1;
         int gridY = (int)(player1.getY() / tileSize) + 1;
         map[gridX][gridY] = new Bomb(3, 3, (gridX * tileSize) + xOffset, (gridY / tileSize) + yOffset);
