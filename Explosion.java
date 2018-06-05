@@ -2,7 +2,7 @@
  * Explosion
  * Represents the actual explosion of the bomb.
  */
-class Explosion {
+class Explosion extends Obstruction {
   private int range;
   
   Explosion() {

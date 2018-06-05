@@ -1,4 +1,4 @@
-class Powerup {
+class Powerup extends Obstruction {
   /* Powerup list:
    * 0 = none
    * 1 = speed

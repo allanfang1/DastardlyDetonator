@@ -69,12 +69,15 @@ class GameFrame extends JFrame {
     Clock clock;
     Obstruction[][] map;
     int mapSize = 21;
+    int xOffset = 50;
+    int yOffset = 50;
+    int tileSize = 25;
     
     GameAreaPanel () {
       frameRate = new FrameRate();
       player1 = new Human(0, 50, 26, 26);
       player2 = new Human(0, 100, 26, 26);
-      map = new Wall[mapSize][mapSize];
+      map = new Obstruction[mapSize][mapSize];
       //Generate walls of map
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
@@ -134,6 +137,9 @@ class GameFrame extends JFrame {
           if (map[x][y] instanceof Wall) {
             ((Wall)map[x][y]).draw(g);
           }
+          else if (map[x][y] instanceof Bomb) {
+            ((Bomb)map[x][y]).draw(g);
+          }
         }
       }
       frameRate.draw(g,10,10);
@@ -158,6 +164,13 @@ class GameFrame extends JFrame {
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A") && player1.wallWhere1!=4) {  //If 'A' is pressed
         player1.xDirection = -1;
+      }
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //If 'C' is pressed
+        /*Bomb newBomb = (player1.placeBomb(tileSize, xOffset, yOffset));
+        map[(int)((newBomb.getX() - xOffset) / tileSize)][(int)((newBomb.getY() - yOffset) / tileSize)] = newBomb;*/
+        int gridX = (int)(player1.getX() / tileSize) + 1;
+        int gridY = (int)(player1.getY() / tileSize) + 1;
+        map[gridX][gridY] = new Bomb(3, 3, (gridX * tileSize) + xOffset, (gridY / tileSize) + yOffset);
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
         player2.yDirection = -1;
