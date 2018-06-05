@@ -108,12 +108,24 @@ class GameFrame extends JFrame {
       player1.draw(g);
       whereCrash();
       if(player1.wallWhere1!=2){
+      if(player1.xDirection>0){
       player1.moveRight(clock.getElapsedTime());
       }
+      }
+      if(player1.wallWhere1!=1){
+      if(player1.yDirection<0){
       player1.moveUp(clock.getElapsedTime());
+      }
+      }
+      if(player1.wallWhere2!=2){
+      if(player1.yDirection>0){
       player1.moveDown(clock.getElapsedTime());
+      }
+      }
+      if(player1.wallWhere1!=1){
       if(player1.xDirection<0){
       player1.moveLeft(clock.getElapsedTime());
+      }
       }
       player2.draw(g);
       player2.move(clock.getElapsedTime());
@@ -143,11 +155,9 @@ class GameFrame extends JFrame {
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S") && player1.wallWhere1!=3) {  //If 'S' is pressed
         player1.yDirection = 1;
-   //     noCrash();
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A") && player1.wallWhere1!=4) {  //If 'A' is pressed
         player1.xDirection = -1;
-    //    noCrash();
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
         player2.yDirection = -1;
@@ -175,11 +185,24 @@ class GameFrame extends JFrame {
               player1.wallWhere1=2;
               noWall=false;
             }
+            if ((player1.upBox).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.wallWhere2=1;
+              noWall=false;
+            }
+            if ((player1.leftBox).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.wallWhere1=1;
+              noWall=false;
+            }
+            if ((player1.downBox).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.wallWhere2=2;
+              noWall=false;
+            }
           }
         }
       }
       if(noWall==true){
         player1.wallWhere1=0;
+        player1.wallWhere2=0;
       }
     }
     

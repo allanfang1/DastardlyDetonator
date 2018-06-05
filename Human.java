@@ -38,39 +38,51 @@ class Human extends Living{
     xDirection = 0;
     yDirection = 0;
     speed = 1;
-    rightBox = new Rectangle(((int)xPosition)+25, (int)yPosition, 1, 25);
-    leftBox = new Rectangle(((int)xPosition), (int)yPosition, 1, 25);
-    upBox = new Rectangle((int)xPosition, ((int)yPosition), 25, 1);
-    downBox = new Rectangle((int)xPosition, ((int)yPosition)+25, 25, 1);
+    rightBox = new Rectangle(((int)xPosition)+25, ((int)yPosition)+1, 1, 22);
+    leftBox = new Rectangle(((int)xPosition), ((int)yPosition)+1, 1, 22);
+    upBox = new Rectangle(((int)xPosition)+1, ((int)yPosition), 22, 1);
+    downBox = new Rectangle(((int)xPosition)+1, ((int)yPosition)+25, 22, 1);
   }
 
   public void draw(Graphics g) {
     g.setColor(Color.RED); //There are many graphics commands that Java can use
     g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
     g.setColor(Color.BLUE);
-    g.fillRect(((int)xPosition)+25, (int)yPosition, 1, 25);
-    g.fillRect(((int)xPosition), (int)yPosition, 1, 25);
-    g.fillRect((int)xPosition, ((int)yPosition)+25, 25, 1);
-    g.fillRect((int)xPosition, ((int)yPosition), 25, 1);
+    g.fillRect(((int)xPosition)+25, ((int)yPosition)+1, 1, 22);
+    g.fillRect(((int)xPosition), ((int)yPosition)+1, 1, 22);
+    g.fillRect(((int)xPosition)+1, ((int)yPosition)+25, 22, 1);
+    g.fillRect(((int)xPosition)+1, (int)yPosition, 22, 1);
   }
 
   public void moveRight(double elapsedTime) {
     this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
     rightBox.x=((int)xPosition)+25;
+    leftBox.x=(int)xPosition;
+    upBox.x=(int)xPosition;
+    downBox.x=(int)xPosition;
   }
   
   public void moveUp(double elapsedTime) {
     this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
     rightBox.y=(int)yPosition;
+    leftBox.y=(int)yPosition;
+    upBox.y=(int)yPosition;
+    downBox.y=((int)yPosition)+25;
   }
   
   public void moveDown(double elapsedTime) {
     this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
     rightBox.y=(int)yPosition;
+    leftBox.y=(int)yPosition;
+    upBox.y=(int)yPosition;
+    downBox.y=((int)yPosition)+25;
   }
   
   public void moveLeft(double elapsedTime) {
     this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
     rightBox.x=((int)xPosition)+25;
+    leftBox.x=(int)xPosition;
+    upBox.x=(int)xPosition;
+    downBox.x=(int)xPosition;
   }
 }
