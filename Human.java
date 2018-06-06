@@ -10,6 +10,7 @@ class Human extends Living{
   boolean kickable;
   boolean throwable;
   int crateCap;
+  int blastRange = 1;
   
   int height = 25;
   int width = 25;
@@ -38,10 +39,48 @@ class Human extends Living{
     xDirection = 0;
     yDirection = 0;
     speed = 2;
+    this.height = length;
+    this.width = length;
     rightBox = new Rectangle(((int)xPosition)+23, ((int)yPosition)+1, 1, length);//23
     leftBox = new Rectangle(((int)xPosition)-1, ((int)yPosition)+1, 1, length);
     upBox = new Rectangle(((int)xPosition), ((int)yPosition), length, 1);
     downBox = new Rectangle(((int)xPosition), ((int)yPosition)+23, length, 1);
+  }
+  
+  /**
+   * getX
+   * This method returns this object's X-position.
+   * @return The X-position of this object.
+   */
+  public double getX() {
+    return this.xPosition;
+  }
+
+  /**
+   * setX
+   * This method sets the X-position of this object.
+   * @param The value to set this object's X-position to.
+   */
+  public void setX(double newX) {
+    this.xPosition = newX;
+  }
+
+  /**
+   * getY
+   * This method returns this object's Y-position.
+   * @return The Y-position of this object.
+   */
+  public double getY() {
+    return this.yPosition;
+  }
+
+  /**
+   * setY
+   * This method sets the Y-position of this object.
+   * @param The value to set this object's Y-position to.
+   */
+  public void setY(double newY) {
+    this.yPosition = newY;
   }
   
   public void draw(Graphics g) {
@@ -68,5 +107,9 @@ class Human extends Living{
     leftBox.y=((int)yPosition)+1;
     upBox.y=(int)yPosition;
     downBox.y=((int)yPosition)+23;
+  }
+  
+  public Bomb placeBomb(int x, int y, double elapsedTime) {
+    return (new Bomb(this.blastRange, 3, x, y, elapsedTime));
   }
 }

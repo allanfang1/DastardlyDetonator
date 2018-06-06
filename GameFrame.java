@@ -167,10 +167,13 @@ class GameFrame extends JFrame {
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //If 'C' is pressed
         /*Bomb newBomb = (player1.placeBomb(tileSize, xOffset, yOffset));
-         map[(int)((newBomb.getX() - xOffset) / tileSize)][(int)((newBomb.getY() - yOffset) / tileSize)] = newBomb;*/
-        int gridX = (int)(player1.getX() / tileSize) + 1;
-        int gridY = (int)(player1.getY() / tileSize) + 1;
-        map[gridX][gridY] = new Bomb(3, 3, (gridX * tileSize) + xOffset, (gridY / tileSize) + yOffset);
+        map[(int)((newBomb.getX() - xOffset) / tileSize)][(int)((newBomb.getY() - yOffset) / tileSize)] = newBomb;*/
+        int gridX = (int)Math.round((player1.getX() - xOffset) / tileSize);
+        int gridY = (int)Math.round((player1.getY() - yOffset) / tileSize);
+        if (map[gridX][gridY] instanceof Obstruction == false) {
+          //System.out.println(clock.getElapsedTime());
+          map[gridX][gridY] = player1.placeBomb(gridX, gridY, clock.getElapsedTime());
+        }
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
         player2.yDirection = -1;
