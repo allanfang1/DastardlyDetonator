@@ -97,7 +97,7 @@ class GameFrame extends JFrame {
       //Generate crates
       Random rand = new Random();
       //Generate 1 quadrant of the crates first
-      for (int x = 0; x < (mapSize / 2); x++) {
+    /*  for (int x = 0; x < (mapSize / 2); x++) {
         for (int y = 0; y < (mapSize / 2); y++) {
           //Make sure current spot is not a wall
           if (map[x][y] instanceof Wall == false) {
@@ -117,7 +117,7 @@ class GameFrame extends JFrame {
             }
           }
         }
-      }
+      }*/
       clock = new Clock();
       addKeyListener(this);
       setFocusable(true);

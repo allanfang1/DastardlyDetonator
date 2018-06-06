@@ -41,10 +41,10 @@ class Human extends Living{
     speed = 2;
     this.height = length;
     this.width = length;
-    rightBox = new Rectangle(((int)xPosition)+23, ((int)yPosition)+1, 1, length);//23
+    rightBox = new Rectangle(((int)xPosition)+23, ((int)yPosition)+1, 1, length);//22
     leftBox = new Rectangle(((int)xPosition)-1, ((int)yPosition)+1, 1, length);
-    upBox = new Rectangle(((int)xPosition), ((int)yPosition), length, 1);
-    downBox = new Rectangle(((int)xPosition), ((int)yPosition)+23, length, 1);
+    upBox = new Rectangle(((int)xPosition), ((int)yPosition), length+1, 1);
+    downBox = new Rectangle(((int)xPosition), ((int)yPosition)+23, length+1, 1);
   }
   
   /**
@@ -84,13 +84,18 @@ class Human extends Living{
   }
   
   public void draw(Graphics g) {
-    g.setColor(Color.RED); //There are many graphics commands that Java can use
+    g.setColor(Color.WHITE); //There are many graphics commands that Java can use
     g.fillRect((int)xPosition, (int)yPosition, 23, 23); //notice the y is a variable that we control from our animate method
     g.setColor(Color.BLUE);
     g.fillRect(((int)xPosition)+23, ((int)yPosition)+1, 1, 22);
     g.fillRect(((int)xPosition)-1, ((int)yPosition)+1, 1, 22);
-    g.fillRect(((int)xPosition), (int)yPosition, 22, 1);
-    g.fillRect(((int)xPosition), ((int)yPosition)+23, 22, 1);
+    g.fillRect(((int)xPosition), (int)yPosition, 23, 1);
+    g.fillRect(((int)xPosition), ((int)yPosition)+23, 23, 1);
+    g.setColor(Color.RED);
+    g.fillRect(((int)xPosition)+23, ((int)yPosition), 1, 1); //top right
+    g.fillRect(((int)xPosition)-1, ((int)yPosition), 1, 1); //TOP LEFT
+    g.fillRect(((int)xPosition)+23, (int)yPosition+23, 1, 1); //BOTTOM right
+    g.fillRect(((int)xPosition)-1, ((int)yPosition)+23, 1, 1); //BOTTOM LEFT
   }
   
   public void moveX(double elapsedTime) {
