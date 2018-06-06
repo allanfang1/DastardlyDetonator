@@ -19,6 +19,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
+import java.util.Random;
+
 class GameFrame extends JFrame {
   
   static GameAreaPanel gamePanel;
@@ -91,6 +93,31 @@ class GameFrame extends JFrame {
           }
         }
       }
+      
+      //Generate crates
+      Random rand = new Random();
+      //Generate 1 quadrant of the crates first
+      for (int x = 0; x < (mapSize / 2); x++) {
+        for (int y = 0; y < (mapSize / 2); y++) {
+          //Make sure current spot is not a wall
+          if (map[x][y] instanceof Wall == false) {
+            //Make sure current spot is not in the corner (for player spawn)
+            if ((x > 2) || (y > 2)) {
+              //Decide whether or not to put a crate here
+              if (rand.nextInt(5) > 0) {
+                //X and Y coordinates of opposite sides of the map
+                int flipX = mapSize - x - 1;
+                int flipY = mapSize - y - 1;
+                //Create crates
+                map[x][y] = new Crate((x * tileSize) + xOffset, (y * tileSize) + yOffset);
+                map[flipX][y] = new Crate((flipX * tileSize) + xOffset, (y * tileSize) + yOffset);
+                map[x][flipY] = new Crate((x * tileSize) + xOffset, (flipY * tileSize) + yOffset);
+                map[flipX][flipY] = new Crate((flipX * tileSize) + xOffset, (flipY * tileSize) + yOffset);
+              }
+            }
+          }
+        }
+      }
       clock = new Clock();
       addKeyListener(this);
       setFocusable(true);
@@ -136,6 +163,9 @@ class GameFrame extends JFrame {
         for (int y = 0; y < mapSize; y++) {
           if (map[x][y] instanceof Wall) {
             ((Wall)map[x][y]).draw(g);
+          }
+          else if (map[x][y] instanceof Crate) {
+            ((Crate)map[x][y]).draw(g);
           }
           else if (map[x][y] instanceof Bomb) {
             ((Bomb)map[x][y]).draw(g);

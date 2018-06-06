@@ -4,10 +4,9 @@
  * 
  */
 abstract class Obstruction {
-  
   //Coordinates of this obstruction
   public double xPosition, yPosition;
-  
+   
   /**
    * getX
    * This method returns this object's X-position.
