@@ -97,8 +97,8 @@ class GameFrame extends JFrame {
       //Generate crates
       Random rand = new Random();
       //Generate 1 quadrant of the crates first
-    /*  for (int x = 0; x < (mapSize / 2); x++) {
-        for (int y = 0; y < (mapSize / 2); y++) {
+      for (int x = 0; x < ((mapSize / 2) + 1); x++) {
+        for (int y = 0; y < ((mapSize / 2) + 1); y++) {
           //Make sure current spot is not a wall
           if (map[x][y] instanceof Wall == false) {
             //Make sure current spot is not in the corner (for player spawn)
@@ -117,7 +117,7 @@ class GameFrame extends JFrame {
             }
           }
         }
-      }*/
+      }
       clock = new Clock();
       addKeyListener(this);
       setFocusable(true);
@@ -168,7 +168,14 @@ class GameFrame extends JFrame {
             ((Crate)map[x][y]).draw(g);
           }
           else if (map[x][y] instanceof Bomb) {
-            ((Bomb)map[x][y]).draw(g);
+            //Check if bomb has exploded
+            ((Bomb)map[x][y]).update();
+            if (((Bomb)map[x][y]).hasExploded()) {
+              map[x][y] = null;
+            }
+            else {
+              ((Bomb)map[x][y]).draw(g);
+            }
           }
         }
       }
@@ -202,7 +209,7 @@ class GameFrame extends JFrame {
         int gridY = (int)Math.round((player1.getY() - yOffset) / tileSize);
         if (map[gridX][gridY] instanceof Obstruction == false) {
           //System.out.println(clock.getElapsedTime());
-          map[gridX][gridY] = player1.placeBomb(gridX, gridY, clock.getElapsedTime());
+          map[gridX][gridY] = player1.placeBomb(gridX, gridY);
         }
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed

@@ -7,27 +7,39 @@ import java.awt.Color;
  */
 class Bomb extends Obstruction {
   private int blastRange;
-  private double timeLeft;
+  private double explodeTime;
+  private boolean explode = false;
   
   Bomb() {
     this.blastRange = 0;
-    this.timeLeft = 0;
+    this.explodeTime = 0;
   }
   
-  Bomb(int range, int time, int gridX, int gridY, double startTime) {
+  Bomb(int range, int fuse, int gridX, int gridY) {
     this.blastRange = range;
-    this.timeLeft = time;
     this.xPosition = (gridX * 25) + 50;
     this.yPosition = (gridY * 25) + 50;
-    this.timeLeft = startTime + 3000;
+    this.explodeTime = (System.nanoTime() / 1.0E9) + fuse;
+  }
+  
+  void update() {
+    double currentTime = (System.nanoTime() / 1.0E9);  //if the computer is fast you need more precision
+    if (currentTime > explodeTime) {
+      this.explode = true;
+      this.explode();
+    }
+  }
+  
+  boolean hasExploded() {
+    return explode;
   }
   
   void explode() {
-    //boom
+    System.out.println("boom");
   }
   
   double getTime() {
-    return timeLeft;
+    return explodeTime;
   }
   
   public void draw(Graphics g) {

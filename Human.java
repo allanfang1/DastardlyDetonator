@@ -114,7 +114,7 @@ class Human extends Living{
     downBox.y=((int)yPosition)+23;
   }
   
-  public Bomb placeBomb(int x, int y, double elapsedTime) {
-    return (new Bomb(this.blastRange, 3, x, y, elapsedTime));
+  public Bomb placeBomb(int x, int y) {
+    return (new Bomb(this.blastRange, 3, x, y));
   }
 }
