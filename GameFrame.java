@@ -137,23 +137,23 @@ class GameFrame extends JFrame {
       //draw the screen
       player1.draw(g);
       whereCrash();
-      if(player1.wallWhere1!=2){
-        if(player1.xDirection>0){
+      if(player1.getWall1() != 2){
+        if(player1.getXDirection() > 0){
           player1.moveX(clock.getElapsedTime());
         }
       }
-      if(player1.wallWhere2!=1){
-        if(player1.yDirection<0){
+      if(player1.getWall2() != 1){
+        if(player1.getYDirection() < 0){
           player1.moveY(clock.getElapsedTime());
         }
       }
-      if(player1.wallWhere2!=2){
-        if(player1.yDirection>0){
+      if(player1.getWall2() !=2){
+        if(player1.getYDirection() > 0){
           player1.moveY(clock.getElapsedTime());
         }
       }
-      if(player1.wallWhere1!=1){
-        if(player1.xDirection<0){
+      if(player1.getWall1() != 1){
+        if(player1.getXDirection() < 0){
           player1.moveX(clock.getElapsedTime());
         }
       }
@@ -191,16 +191,16 @@ class GameFrame extends JFrame {
     public void keyPressed(KeyEvent e) {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-        player1.yDirection = -1;
+        player1.setYDirection(-1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-        player1.xDirection = 1;
+        player1.setXDirection(1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
-        player1.yDirection = 1;
+        player1.setYDirection(1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
-        player1.xDirection = -1;
+        player1.setXDirection(-1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //If 'C' is pressed
         /*Bomb newBomb = (player1.placeBomb(tileSize, xOffset, yOffset));
@@ -213,16 +213,16 @@ class GameFrame extends JFrame {
         }
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
-        player2.yDirection = -1;
+        player2.setYDirection(-1);
       }
       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
-        player2.xDirection = 1;
+        player2.setXDirection(1);
       }
       if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
-        player2.yDirection = 1;
+        player2.setYDirection(1);
       }
       if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
-        player2.xDirection = -1;
+        player2.setXDirection(-1);
       }
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
         gameFrame.dispose();
@@ -234,55 +234,55 @@ class GameFrame extends JFrame {
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
           if (map[x][y] instanceof Wall) {
-            if ((player1.rightBox).intersects(((Wall)map[x][y]).boundingBox)){
-              player1.wallWhere1=2;
+            if ((player1.getRightBox()).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.setWall1(2);
               noWall=false;
             }
-            if ((player1.upBox).intersects(((Wall)map[x][y]).boundingBox)){
-              player1.wallWhere2=1;
+            if ((player1.getUpBox()).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.setWall2(1);
               noWall=false;
             }
-            if ((player1.leftBox).intersects(((Wall)map[x][y]).boundingBox)){
-              player1.wallWhere1=1;
+            if ((player1.getLeftBox()).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.setWall1(1);
               noWall=false;
             }
-            if ((player1.downBox).intersects(((Wall)map[x][y]).boundingBox)){
-              player1.wallWhere2=2;
+            if ((player1.getDownBox()).intersects(((Wall)map[x][y]).boundingBox)){
+              player1.setWall2(2);
               noWall=false;
             }
           }
         }
       }
       if(noWall==true){
-        player1.wallWhere1=0;
-        player1.wallWhere2=0;
+        player1.setWall1(0);
+        player1.setWall2(0);
       }
     }
     
     public void keyReleased(KeyEvent e) {
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-        player1.yDirection = 0;
+        player1.setYDirection(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-        player1.xDirection = 0;
+        player1.setXDirection(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
-        player1.yDirection = 0;
+        player1.setYDirection(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
-        player1.xDirection = 0;
+        player1.setXDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
-        player2.yDirection = 0;
+        player2.setYDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
-        player2.xDirection = 0;
+        player2.setXDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
-        player2.yDirection = 0;
+        player2.setYDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
-        player2.xDirection = 0;
+        player2.setXDirection(0);
       }
     }
   }

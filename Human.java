@@ -6,45 +6,45 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 class Human extends Living{
-  int bombCap;
-  boolean kickable;
-  boolean throwable;
-  int crateCap;
-  int blastRange = 1;
+  private int bombCap;
+  private boolean kickable;
+  private boolean throwable;
+  private int crateCap;
+  private int blastRange = 1;
   
-  int height = 25;
-  int width = 25;
+  private int height = 25;
+  private int width = 25;
   
-  public Rectangle upBox;
-  public Rectangle downBox;
-  public Rectangle leftBox;
-  public Rectangle rightBox;
+  private Rectangle upBox;
+  private Rectangle downBox;
+  private Rectangle leftBox;
+  private Rectangle rightBox;
   
-  public double xPosition, yPosition;
-  public int xDirection, yDirection;
-  public int axis;
-  public double speed;
-  public int wallWhere1;
-  public int wallWhere2;
+  private double xPosition, yPosition;
+  private int xDirection, yDirection;
+  private int axis;
+  private double speed;
+  private int wallWhere1;
+  private int wallWhere2;
   
   Human(int x, int y, int length/*int newHealth, double newX, double newY*/) {
     //  super(newHealth, newX, newY);
-    bombCap = 1;
-    kickable = false;
-    throwable = false;
-    crateCap = 0;
+    this.bombCap = 1;
+    this.kickable = false;
+    this.throwable = false;
+    this.crateCap = 0;
     
-    xPosition = x;
-    yPosition = y;
-    xDirection = 0;
-    yDirection = 0;
-    speed = 2;
+    this.xPosition = x;
+    this.yPosition = y;
+    this.xDirection = 0;
+    this.yDirection = 0;
+    this.speed = 2;
     this.height = length;
     this.width = length;
-    rightBox = new Rectangle(((int)xPosition)+23, ((int)yPosition)+1, 1, length);//22
-    leftBox = new Rectangle(((int)xPosition)-1, ((int)yPosition)+1, 1, length);
-    upBox = new Rectangle(((int)xPosition), ((int)yPosition), length+1, 1);
-    downBox = new Rectangle(((int)xPosition), ((int)yPosition)+23, length+1, 1);
+    this.rightBox = new Rectangle(((int)xPosition)+23, ((int)yPosition)+1, 1, length);//22
+    this.leftBox = new Rectangle(((int)xPosition)-1, ((int)yPosition)+1, 1, length);
+    this.upBox = new Rectangle(((int)xPosition), ((int)yPosition), length+1, 1);
+    this.downBox = new Rectangle(((int)xPosition), ((int)yPosition)+23, length+1, 1);
   }
   
   /**
@@ -83,6 +83,38 @@ class Human extends Living{
     this.yPosition = newY;
   }
   
+  public int getXDirection() {
+    return xDirection;
+  }
+  
+  public int getYDirection() {
+    return yDirection;
+  }
+  
+  public void setXDirection(int direction) {
+    this.xDirection = direction;
+  }
+  
+  public void setYDirection(int direction) {
+    this.yDirection = direction;
+  }
+  
+  public Rectangle getRightBox() {
+    return rightBox;
+  }
+  
+  public Rectangle getLeftBox() {
+    return leftBox;
+  }
+  
+  public Rectangle getUpBox() {
+    return upBox;
+  }
+  
+  public Rectangle getDownBox() {
+    return downBox;
+  }
+  
   public void draw(Graphics g) {
     g.setColor(Color.WHITE); //There are many graphics commands that Java can use
     g.fillRect((int)xPosition, (int)yPosition, 23, 23); //notice the y is a variable that we control from our animate method
@@ -112,6 +144,22 @@ class Human extends Living{
     leftBox.y=((int)yPosition)+1;
     upBox.y=(int)yPosition;
     downBox.y=((int)yPosition)+23;
+  }
+  
+  public int getWall1() {
+    return wallWhere1;
+  }
+  
+  public int getWall2() {
+    return wallWhere2;
+  }
+  
+  public void setWall1(int setWall) {
+    this.wallWhere1 = setWall;
+  }
+  
+  public void setWall2(int setWall) {
+    this.wallWhere2 = setWall;
   }
   
   public Bomb placeBomb(int x, int y) {
