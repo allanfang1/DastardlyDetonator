@@ -171,10 +171,25 @@ class GameFrame extends JFrame {
             //Check if bomb has exploded
             ((Bomb)map[x][y]).update();
             if (((Bomb)map[x][y]).hasExploded()) {
-              map[x][y] = null;
+              int range = ((Bomb)map[x][y]).getRange();
+              map[x][y] = new Explosion(x, y, tileSize, xOffset, yOffset);
+              map = ((Explosion)map[x][y]).spread(range, 1, 0, map);
+              map = ((Explosion)map[x][y]).spread(range, -1, 0, map);
+              map = ((Explosion)map[x][y]).spread(range, 0, 1, map);
+              map = ((Explosion)map[x][y]).spread(range, 0, -1, map);
             }
             else {
               ((Bomb)map[x][y]).draw(g);
+            }
+          }
+          else if (map[x][y] instanceof Explosion) {
+            ((Explosion)map[x][y]).update();
+            if (((Explosion)(map[x][y])).shouldFade()) {
+              //TODO: this is probably not a good idea
+              map[x][y] = null;
+            }
+            else {
+              ((Explosion)map[x][y]).draw(g);
             }
           }
         }

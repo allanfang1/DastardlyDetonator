@@ -35,11 +35,15 @@ class Bomb extends Obstruction {
   }
   
   void explode() {
-    System.out.println("boom");
+    this.explode = true;
   }
   
   double getTime() {
     return explodeTime;
+  }
+  
+  int getRange() { 
+    return blastRange;
   }
   
   public void draw(Graphics g) {
