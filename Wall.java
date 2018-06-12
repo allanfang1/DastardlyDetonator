@@ -12,19 +12,19 @@ class Wall extends Obstruction {
   Rectangle boundingBox;
 
   Wall(){
-    super.xPosition = 50;
-    super.yPosition = 50;
-    boundingBox=new Rectangle((int)xPosition, (int)yPosition, width, height);
+    this.setX(50);
+    this.setY(50);
+    boundingBox=new Rectangle((int)(this.getX()), (int)(this.getY()), width, height);
   }
 
   Wall(int x, int y){
-    super.xPosition = x;
-    super.yPosition = y;
-    boundingBox=new Rectangle((int)xPosition, (int)yPosition, width, height);
+    this.setX(x);
+    this.setY(y);
+    boundingBox=new Rectangle((int)(this.getX()), (int)(this.getY()), width, height);
   }
 
   public void draw(Graphics g) {
     g.setColor(Color.BLUE); //There are many graphics commands that Java can use
-    g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
+    g.fillRect((int)(this.getX()), (int)(this.getY()), 25, 25); //notice the y is a variable that we control from our animate method
   }
 }

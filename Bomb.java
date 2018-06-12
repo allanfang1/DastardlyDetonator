@@ -17,8 +17,8 @@ class Bomb extends Obstruction {
   
   Bomb(int range, int fuse, int gridX, int gridY) {
     this.blastRange = range;
-    this.xPosition = (gridX * 25) + 50;
-    this.yPosition = (gridY * 25) + 50;
+    this.setX((gridX * 25) + 50);
+    this.setY((gridY * 25) + 50);
     this.explodeTime = (System.nanoTime() / 1.0E9) + fuse;
   }
   
@@ -48,7 +48,7 @@ class Bomb extends Obstruction {
   
   public void draw(Graphics g) {
     g.setColor(Color.BLACK); //There are many graphics commands that Java can use
-    g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
+    g.fillRect((int)(this.getX()), (int)(this.getY()), 25, 25); //notice the y is a variable that we control from our animate method
   }
   
 }

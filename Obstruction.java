@@ -5,7 +5,7 @@
  */
 abstract class Obstruction {
   //Coordinates of this obstruction
-  public double xPosition, yPosition;
+  private double xPosition, yPosition;
    
   /**
    * getX

@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Color;
+import java.util.Random;
 
 /**
  * Explosion
@@ -19,8 +20,8 @@ class Explosion extends Obstruction {
     this.tileSize = setTileSize;
     this.xOffset = setXOffset;
     this.yOffset = setYOffset;
-    this.xPosition = ((x * tileSize) + xOffset);
-    this.yPosition = ((y * tileSize) + yOffset);
+    this.setX((x * tileSize) + xOffset);
+    this.setY((y * tileSize) + yOffset);
     this.gridX = x;
     this.gridY = y;
     //Fade out after 1 second
@@ -30,9 +31,17 @@ class Explosion extends Obstruction {
   public Obstruction[][] spread(int range, int xDirection, int yDirection, Obstruction[][] map) {
     Obstruction[][] tempMap = map;
     if (range > 0) {
-      if ((tempMap[gridX + xDirection][gridY + yDirection] instanceof Wall == false) && (tempMap[gridX + xDirection][gridY + yDirection] instanceof Bomb == false)){
+      if (tempMap[gridX + xDirection][gridY + yDirection] instanceof Obstruction == false) {
         tempMap[gridX + xDirection][gridY + yDirection] = new Explosion(this.gridX + xDirection, this.gridY + yDirection, this.tileSize, this.xOffset, this.yOffset);
         return ((Explosion)(tempMap[gridX + xDirection][gridY + yDirection])).spread(range - 1, xDirection, yDirection, tempMap);
+      }
+      //Check if it is a crate
+      else if (tempMap[gridX + xDirection][gridY + yDirection]  instanceof Crate) {
+        Random rand = new Random();
+        if (rand.nextInt(3) == 0) { //33% chance to spawn a powerup
+          tempMap[gridX + xDirection][gridY + yDirection] = new Powerup(rand.nextInt(4), gridX + xDirection, gridY + yDirection);
+          return tempMap;
+        }
       }
     }
     return tempMap;
@@ -56,7 +65,7 @@ class Explosion extends Obstruction {
   }
   
   void update() {
-    double currentTime = (System.nanoTime() / 1.0E9);  //if the computer is fast you need more precision
+    double currentTime = (System.nanoTime() / 1.0E9);  //Returns time in seconds (nanoseconds --> seconds)
     if (currentTime > fadeTime) {
       this.fade = true;
     }
@@ -68,7 +77,7 @@ class Explosion extends Obstruction {
   
   public void draw(Graphics g) {
     g.setColor(Color.RED); //There are many graphics commands that Java can use
-    g.fillRect((int)xPosition, (int)yPosition, 25, 25); //notice the y is a variable that we control from our animate method
+    g.fillRect((int)(this.getX()), (int)(this.getY()), 25, 25); //notice the y is a variable that we control from our animate method
   }
   
 }

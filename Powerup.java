@@ -1,20 +1,17 @@
+import java.awt.Graphics;
+import java.awt.Color;
+
 class Powerup extends Obstruction {
   /* Powerup list:
-   * 0 = none
-   * 1 = speed
-   * 2 = max bombs
-   * 3 = explosion range
-   * 4 = throw range
-   * 5 = temporary crate
+   * 0 = speed
+   * 1 = max bombs
+   * 2 = explosion range
+   * 3 = add health
    */
 
   private int powerupID;
 
-  Powerup() {
-    this.powerupID = 0;
-  }
-
-  Powerup(int setPowerup) {
+  Powerup(int setPowerup, int gridX, int gridY) {
     this.powerupID = setPowerup;
   }
 
@@ -26,6 +23,22 @@ class Powerup extends Obstruction {
   int getPowerup() {
     return this.powerupID;
   }
+  
+  Human usePowerup(Human player) {
+    if (this.powerupID == 0) {
+      player.addSpeed();
+    }
+    else if (this.powerupID == 1) {
+      player.addBombs();
+    }
+    else if (this.powerupID == 2) {
+      player.addRange();
+    }
+    else if (this.powerupID == 3) {
+      player.addHealth();
+    }
+    return player;
+  }
 
   /**
    * setPowerup
@@ -35,4 +48,10 @@ class Powerup extends Obstruction {
   void setPowerup(int newPowerup) {
     this.powerupID = newPowerup;
   }
+  
+  public void draw(Graphics g) {
+    g.setColor(Color.YELLOW); //There are many graphics commands that Java can use
+    g.fillRect((int)(this.getX()), (int)(this.getY()), 25, 25); //notice the y is a variable that we control from our animate method
+  }
+  
 }

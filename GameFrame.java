@@ -27,7 +27,7 @@ class GameFrame extends JFrame {
   static JFrame gameFrame;
   
   GameFrame() {
-    super("My Game");
+    super("Dastardly Detonator");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     this.setUndecorated(true);
@@ -66,7 +66,6 @@ class GameFrame extends JFrame {
     
     Human player1;
     Human player2;
-    Wall wall;
     FrameRate frameRate;
     Clock clock;
     Obstruction[][] map;

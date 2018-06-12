@@ -33,7 +33,7 @@ class Human extends Living{
     this.kickable = false;
     this.throwable = false;
     this.crateCap = 0;
-    
+    this.blastRange = 1;
     this.xPosition = x;
     this.yPosition = y;
     this.xDirection = 0;
@@ -81,6 +81,30 @@ class Human extends Living{
    */
   public void setY(double newY) {
     this.yPosition = newY;
+  }
+  
+  public void addSpeed() {
+    if (this.speed < 10) {
+      this.speed++;
+    }
+  }
+  
+  public void addBombs() {
+    if (this.bombCap < 10) {
+      this.bombCap++;
+    }
+  }
+  
+  public void addRange() {
+    if (this.blastRange < 10) {
+      this.blastRange++;
+    }
+  }
+  
+  public void addHealth() {
+    if (this.getHealth() < 3) {
+      this.setHealth(this.getHealth() + 1);
+    }
   }
   
   public int getXDirection() {
