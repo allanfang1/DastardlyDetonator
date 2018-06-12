@@ -1,3 +1,5 @@
+import java.awt.Rectangle;
+
 /**
  * Obstruction
  * Represents an unpassable block.
@@ -6,7 +8,16 @@
 abstract class Obstruction {
   //Coordinates of this obstruction
   public double xPosition, yPosition;
-   
+  public Rectangle boundingBox;
+  int height=25;
+  int width=25;
+  
+  Obstruction(double x, double y) {
+    this.xPosition = x;
+    this.yPosition = y;
+    this.boundingBox = new Rectangle((int)(this.xPosition), (int)(this.yPosition), width, height);
+  }
+  
   /**
    * getX
    * This method returns this object's X-position.

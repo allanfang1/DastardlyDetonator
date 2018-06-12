@@ -29,6 +29,7 @@ class Human extends Living{
   
   Human(int x, int y, int length/*int newHealth, double newX, double newY*/) {
     //  super(newHealth, newX, newY);
+    this.setHealth(3);
     this.bombCap = 1;
     this.kickable = false;
     this.throwable = false;

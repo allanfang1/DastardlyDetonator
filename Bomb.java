@@ -10,15 +10,9 @@ class Bomb extends Obstruction {
   private double explodeTime;
   private boolean explode = false;
   
-  Bomb() {
-    this.blastRange = 0;
-    this.explodeTime = 0;
-  }
-  
   Bomb(int range, int fuse, int gridX, int gridY) {
+    super((gridX * 25) + 50, (gridY * 25) + 50);
     this.blastRange = range;
-    this.setX((gridX * 25) + 50);
-    this.setY((gridY * 25) + 50);
     this.explodeTime = (System.nanoTime() / 1.0E9) + fuse;
   }
   

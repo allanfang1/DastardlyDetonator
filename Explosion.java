@@ -13,15 +13,12 @@ class Explosion extends Obstruction {
   private double fadeTime;
   private boolean fade;
   
-  Explosion() {
-  }
   
   Explosion(int x, int y, int setTileSize, int setXOffset, int setYOffset) {
+    super((x * setTileSize) + setXOffset, (y * setTileSize) + setYOffset);
     this.tileSize = setTileSize;
     this.xOffset = setXOffset;
     this.yOffset = setYOffset;
-    this.setX((x * tileSize) + xOffset);
-    this.setY((y * tileSize) + yOffset);
     this.gridX = x;
     this.gridY = y;
     //Fade out after 1 second
@@ -31,16 +28,21 @@ class Explosion extends Obstruction {
   public Obstruction[][] spread(int range, int xDirection, int yDirection, Obstruction[][] map) {
     Obstruction[][] tempMap = map;
     if (range > 0) {
-      if (tempMap[gridX + xDirection][gridY + yDirection] instanceof Obstruction == false) {
+      //Only explode in empty spaces and powerups
+      if ((tempMap[gridX + xDirection][gridY + yDirection] instanceof Obstruction == false) || (tempMap[gridX + xDirection][gridY + yDirection] instanceof Powerup)) {
         tempMap[gridX + xDirection][gridY + yDirection] = new Explosion(this.gridX + xDirection, this.gridY + yDirection, this.tileSize, this.xOffset, this.yOffset);
         return ((Explosion)(tempMap[gridX + xDirection][gridY + yDirection])).spread(range - 1, xDirection, yDirection, tempMap);
       }
       //Check if it is a crate
       else if (tempMap[gridX + xDirection][gridY + yDirection]  instanceof Crate) {
         Random rand = new Random();
-        if (rand.nextInt(3) == 0) { //33% chance to spawn a powerup
+        if (rand.nextInt(4) == 0) { //25% chance to spawn a powerup
           tempMap[gridX + xDirection][gridY + yDirection] = new Powerup(rand.nextInt(4), gridX + xDirection, gridY + yDirection);
           return tempMap;
+        }
+        else {
+          tempMap[gridX + xDirection][gridY + yDirection] = new Explosion(this.gridX + xDirection, this.gridY + yDirection, this.tileSize, this.xOffset, this.yOffset);
+          return ((Explosion)(tempMap[gridX + xDirection][gridY + yDirection])).spread(range - 1, xDirection, yDirection, tempMap);
         }
       }
     }

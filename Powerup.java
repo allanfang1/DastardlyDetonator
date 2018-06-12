@@ -12,6 +12,7 @@ class Powerup extends Obstruction {
   private int powerupID;
 
   Powerup(int setPowerup, int gridX, int gridY) {
+    super((gridX * 25) + 50, (gridY * 25) + 50);
     this.powerupID = setPowerup;
   }
 
@@ -37,6 +38,7 @@ class Powerup extends Obstruction {
     else if (this.powerupID == 3) {
       player.addHealth();
     }
+    System.out.println(powerupID);
     return player;
   }
 

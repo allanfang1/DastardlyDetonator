@@ -134,26 +134,28 @@ class GameFrame extends JFrame {
       //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
       
       //draw the screen
-      player1.draw(g);
-      whereCrash();
-      if(player1.getWall1() != 2){
-        if(player1.getXDirection() > 0){
-          player1.moveX(clock.getElapsedTime());
+      if (player1.getHealth() > 0) {
+        player1.draw(g);
+        whereCrash();
+        if(player1.getWall1() != 2){
+          if(player1.getXDirection() > 0){
+            player1.moveX(clock.getElapsedTime());
+          }
         }
-      }
-      if(player1.getWall2() != 1){
-        if(player1.getYDirection() < 0){
-          player1.moveY(clock.getElapsedTime());
+        if(player1.getWall2() != 1){
+          if(player1.getYDirection() < 0){
+            player1.moveY(clock.getElapsedTime());
+          }
         }
-      }
-      if(player1.getWall2() !=2){
-        if(player1.getYDirection() > 0){
-          player1.moveY(clock.getElapsedTime());
+        if(player1.getWall2() !=2){
+          if(player1.getYDirection() > 0){
+            player1.moveY(clock.getElapsedTime());
+          }
         }
-      }
-      if(player1.getWall1() != 1){
-        if(player1.getXDirection() < 0){
-          player1.moveX(clock.getElapsedTime());
+        if(player1.getWall1() != 1){
+          if(player1.getXDirection() < 0){
+            player1.moveX(clock.getElapsedTime());
+          }
         }
       }
       player2.draw(g);
@@ -190,6 +192,9 @@ class GameFrame extends JFrame {
             else {
               ((Explosion)map[x][y]).draw(g);
             }
+          }
+          else if (map[x][y] instanceof Powerup) {
+            ((Powerup)map[x][y]).draw(g);
           }
         }
       }
@@ -247,22 +252,54 @@ class GameFrame extends JFrame {
       boolean noWall=true;
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
-          if (map[x][y] instanceof Wall) {
-            if ((player1.getRightBox()).intersects(((Wall)map[x][y]).boundingBox)){
+          if ((map[x][y] instanceof Wall) || (map[x][y] instanceof Crate)) {
+            if ((player1.getRightBox()).intersects(map[x][y].boundingBox)){
               player1.setWall1(2);
               noWall=false;
             }
-            if ((player1.getUpBox()).intersects(((Wall)map[x][y]).boundingBox)){
+            if ((player1.getUpBox()).intersects(map[x][y].boundingBox)){
               player1.setWall2(1);
               noWall=false;
             }
-            if ((player1.getLeftBox()).intersects(((Wall)map[x][y]).boundingBox)){
+            if ((player1.getLeftBox()).intersects(map[x][y].boundingBox)){
               player1.setWall1(1);
               noWall=false;
             }
-            if ((player1.getDownBox()).intersects(((Wall)map[x][y]).boundingBox)){
+            if ((player1.getDownBox()).intersects(map[x][y].boundingBox)){
               player1.setWall2(2);
               noWall=false;
+            }
+          }
+          else if (map[x][y] instanceof Powerup) {
+            if ((player1.getRightBox()).intersects(map[x][y].boundingBox)){
+              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
+              map[x][y] = null;
+            }
+            else if ((player1.getUpBox()).intersects(map[x][y].boundingBox)){
+              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
+              map[x][y] = null;
+            }
+            else if ((player1.getLeftBox()).intersects(map[x][y].boundingBox)){
+              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
+              map[x][y] = null;
+            }
+            else if ((player1.getDownBox()).intersects(map[x][y].boundingBox)){
+              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
+              map[x][y] = null;
+            }
+          }
+          else if (map[x][y] instanceof Explosion) {
+            if ((player1.getRightBox()).intersects(map[x][y].boundingBox)){
+              player1.setHealth(player1.getHealth() - 1);
+            }
+            else if ((player1.getUpBox()).intersects(map[x][y].boundingBox)){
+              player1.setHealth(player1.getHealth() - 1);
+            }
+            else if ((player1.getLeftBox()).intersects(map[x][y].boundingBox)){
+              player1.setHealth(player1.getHealth() - 1);
+            }
+            else if ((player1.getDownBox()).intersects(map[x][y].boundingBox)){
+              player1.setHealth(player1.getHealth() - 1);
             }
           }
         }

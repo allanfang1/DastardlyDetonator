@@ -12,16 +12,8 @@ class Crate extends Obstruction {
   int width=25;
   Rectangle boundingBox;
 
-  Crate(){
-    this.setX(50);
-    super.setY(50);
-    boundingBox=new Rectangle((int)(this.getX()), (int)(this.getY()), width, height);
-  }
-
   Crate(int x, int y){
-    this.setX(x);
-    this.setY(y);
-    boundingBox=new Rectangle((int)(this.getX()), (int)(this.getY()), width, height);
+    super(x, y);
   }
 
   public void draw(Graphics g) {

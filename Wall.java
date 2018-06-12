@@ -4,23 +4,11 @@
  */
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
 
 class Wall extends Obstruction {
-  int height=25;
-  int width=25;
-  Rectangle boundingBox;
-
-  Wall(){
-    this.setX(50);
-    this.setY(50);
-    boundingBox=new Rectangle((int)(this.getX()), (int)(this.getY()), width, height);
-  }
 
   Wall(int x, int y){
-    this.setX(x);
-    this.setY(y);
-    boundingBox=new Rectangle((int)(this.getX()), (int)(this.getY()), width, height);
+    super(x, y);
   }
 
   public void draw(Graphics g) {
