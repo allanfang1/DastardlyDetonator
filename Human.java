@@ -5,12 +5,14 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-class Human extends Living{
+class Human {
   private int bombCap;
   private boolean kickable;
   private boolean throwable;
   private int crateCap;
   private int blastRange = 1;
+  private int health = 3;
+  private double speed;
   
   private int height = 25;
   private int width = 25;
@@ -20,10 +22,10 @@ class Human extends Living{
   private Rectangle leftBox;
   private Rectangle rightBox;
   
-  private double xPosition, yPosition;
+  private int xPosition, yPosition;
   private int xDirection, yDirection;
+  private int gridX, gridY;
   private int axis;
-  private double speed;
   private int wallWhere1;
   private int wallWhere2;
   
@@ -53,7 +55,7 @@ class Human extends Living{
    * This method returns this object's X-position.
    * @return The X-position of this object.
    */
-  public double getX() {
+  public int getX() {
     return this.xPosition;
   }
 
@@ -62,7 +64,7 @@ class Human extends Living{
    * This method sets the X-position of this object.
    * @param The value to set this object's X-position to.
    */
-  public void setX(double newX) {
+  public void setX(int newX) {
     this.xPosition = newX;
   }
 
@@ -71,7 +73,7 @@ class Human extends Living{
    * This method returns this object's Y-position.
    * @return The Y-position of this object.
    */
-  public double getY() {
+  public int getY() {
     return this.yPosition;
   }
 
@@ -80,8 +82,65 @@ class Human extends Living{
    * This method sets the Y-position of this object.
    * @param The value to set this object's Y-position to.
    */
-  public void setY(double newY) {
+  public void setY(int newY) {
     this.yPosition = newY;
+  }
+  
+  /**
+   * getHealth
+   * This method returns this object's health.
+   * @return The integer health of this object.
+   */
+  public int getHealth() {
+    return this.health;
+  }
+
+  /**
+   * setHealth
+   * This method sets the health of this object.
+   * @param The integer value to set this object's health to.
+   */
+  public void setHealth(int newHealth) {
+    this.health = newHealth;
+  }
+
+  /**
+   * getSpeed
+   * This method returns this object's speed.
+   * @return The integer speed of this object.
+   */
+  public double getSpeed() {
+    return this.speed;
+  }
+
+  /**
+   * setSpeed
+   * This method sets the speed of this object.
+   * @param The integer value to set this object's speed to.
+   */
+  public void setSpeed(double newSpeed) {
+    this.speed = newSpeed;
+  }
+
+  /**
+   * move
+   * This method moves the object.
+   * @param The elapsed time from the last screen refresh to this screen refresh.
+   */
+  public void move(Obstruction[][] map) {
+    //this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
+    //this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
+    int tempX = this.xPosition + this.xDirection;
+    int tempY = this.yPosition + this.yDirection;
+    //Check X direction
+    if ((map[tempX][this.yPosition] instanceof Wall == false) && (map[tempX][this.yPosition] instanceof Crate == false) && (map[tempX][this.yPosition] instanceof Bomb == false)) {
+            this.xPosition += this.xDirection;
+    }
+    //Check Y direction
+    if ((map[this.xPosition][tempY] instanceof Wall == false) && (map[this.xPosition][tempY] instanceof Crate == false) && (map[this.xPosition][tempY] instanceof Bomb == false)) {
+            this.yPosition += this.yDirection;
+    }
+	  
   }
   
   public void addSpeed() {
@@ -141,21 +200,11 @@ class Human extends Living{
   }
   
   public void draw(Graphics g) {
-    g.setColor(Color.WHITE); //There are many graphics commands that Java can use
-    g.fillRect((int)xPosition, (int)yPosition, 23, 23); //notice the y is a variable that we control from our animate method
-    g.setColor(Color.BLUE);
-    g.fillRect(((int)xPosition)+23, ((int)yPosition)+1, 1, 22);
-    g.fillRect(((int)xPosition)-1, ((int)yPosition)+1, 1, 22);
-    g.fillRect(((int)xPosition), (int)yPosition, 23, 1);
-    g.fillRect(((int)xPosition), ((int)yPosition)+23, 23, 1);
-    g.setColor(Color.RED);
-    g.fillRect(((int)xPosition)+23, ((int)yPosition), 1, 1); //top right
-    g.fillRect(((int)xPosition)-1, ((int)yPosition), 1, 1); //TOP LEFT
-    g.fillRect(((int)xPosition)+23, (int)yPosition+23, 1, 1); //BOTTOM right
-    g.fillRect(((int)xPosition)-1, ((int)yPosition)+23, 1, 1); //BOTTOM LEFT
+    g.setColor(Color.RED); //There are many graphics commands that Java can use
+    g.fillRect((int)xPosition * 32 + 64, (int)yPosition * 32 + 64, 32, 32); //notice the y is a variable that we control from our animate method
   }
   
-  public void moveX(double elapsedTime) {
+  /*public void moveX(double elapsedTime) {
     this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
     rightBox.x=((int)xPosition)+23;
     leftBox.x=((int)xPosition)-1;
@@ -169,7 +218,7 @@ class Human extends Living{
     leftBox.y=((int)yPosition)+1;
     upBox.y=(int)yPosition;
     downBox.y=((int)yPosition)+23;
-  }
+  }*/
   
   public int getWall1() {
     return wallWhere1;
@@ -187,7 +236,7 @@ class Human extends Living{
     this.wallWhere2 = setWall;
   }
   
-  public Bomb placeBomb(int x, int y) {
-    return (new Bomb(this.blastRange, 3, x, y));
+  public Bomb placeBomb() {
+    return (new Bomb(this.blastRange, 3, this.xPosition, this.yPosition));
   }
 }

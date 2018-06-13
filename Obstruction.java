@@ -9,8 +9,8 @@ abstract class Obstruction {
   //Coordinates of this obstruction
   public double xPosition, yPosition;
   public Rectangle boundingBox;
-  int height=25;
-  int width=25;
+  int height=32;
+  int width=32;
   
   Obstruction(double x, double y) {
     this.xPosition = x;

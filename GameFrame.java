@@ -1,7 +1,7 @@
 /**
- * This template can be used as reference or a starting point
- * for your final summative project
- * @author Mangat
+ * Dastardly Detonator
+ * ICS3U6 Final
+ * @author Victor Lin and Allan Fang
  **/
 
 //Graphics &GUI imports
@@ -64,21 +64,28 @@ class GameFrame extends JFrame {
   // Inner class for the the game area - This is where all the drawing of the screen occurs
   private class GameAreaPanel extends JPanel implements KeyListener{
     
-    Human player1;
-    Human player2;
     FrameRate frameRate;
     Clock clock;
     Obstruction[][] map;
+    Human[] players;
+    Human[][] playerMap;
     int mapSize = 21;
-    int xOffset = 50;
-    int yOffset = 50;
-    int tileSize = 25;
+    int xOffset = 64;
+    int yOffset = 64;
+    int tileSize = 32;
     
     GameAreaPanel () {
       frameRate = new FrameRate();
-      player1 = new Human(75, 75, 22);
-      player2 = new Human(75, 125, 22);
+
       map = new Obstruction[mapSize][mapSize];
+      
+      playerMap = new Human[mapSize][mapSize];
+      players = new Human[2];
+      players[0] = new Human(1, 1, 22);
+      players[1] = new Human(mapSize - 2, mapSize - 2, 22);
+      
+      playerMap[1][1] = players[0];
+      playerMap[mapSize - 2][mapSize - 2] = players[0];
       //Generate walls of map
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
@@ -131,35 +138,31 @@ class GameFrame extends JFrame {
       //update the content
       clock.update();
       frameRate.update();
-      //player1.update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
+      //players[0].update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
       
       //draw the screen
-      if (player1.getHealth() > 0) {
-        player1.draw(g);
-        whereCrash();
-        if(player1.getWall1() != 2){
-          if(player1.getXDirection() > 0){
-            player1.moveX(clock.getElapsedTime());
-          }
-        }
-        if(player1.getWall2() != 1){
-          if(player1.getYDirection() < 0){
-            player1.moveY(clock.getElapsedTime());
-          }
-        }
-        if(player1.getWall2() !=2){
-          if(player1.getYDirection() > 0){
-            player1.moveY(clock.getElapsedTime());
-          }
-        }
-        if(player1.getWall1() != 1){
-          if(player1.getXDirection() < 0){
-            player1.moveX(clock.getElapsedTime());
-          }
-        }
+      if (players[0].getHealth() > 0) {
+    	  players[0].move(map);
+    	  players[0].draw(g);
       }
-      player2.draw(g);
-      player2.move(clock.getElapsedTime());
+      if (players[1].getHealth() > 0) {
+    	  players[1].move(map);
+    	  players[1].draw(g);
+      }
+      //Check current player positions
+      for (int i = 0; i < players.length; i++) {
+          int playerX = players[i].getX();
+          int playerY = players[i].getY();
+          //If current position is powerup, use powerup
+          if (map[playerX][playerY] instanceof Powerup) {
+              ((Powerup)(map[playerX][playerY])).usePowerup(players[i]);
+              map[playerX][playerY] = null;
+          }
+          //If current position is explosion, damage player
+          if (map[playerX][playerY] instanceof Explosion) {
+              players[0].setHealth(players[0].getHealth() - 1);
+          }
+      }
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
           if (map[x][y] instanceof Wall) {
@@ -210,130 +213,64 @@ class GameFrame extends JFrame {
     public void keyPressed(KeyEvent e) {
       //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-        player1.setYDirection(-1);
+        players[0].setYDirection(-1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-        player1.setXDirection(1);
+        players[0].setXDirection(1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
-        player1.setYDirection(1);
+        players[0].setYDirection(1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
-        player1.setXDirection(-1);
+        players[0].setXDirection(-1);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //If 'C' is pressed
-        /*Bomb newBomb = (player1.placeBomb(tileSize, xOffset, yOffset));
-        map[(int)((newBomb.getX() - xOffset) / tileSize)][(int)((newBomb.getY() - yOffset) / tileSize)] = newBomb;*/
-        int gridX = (int)Math.round((player1.getX() - xOffset) / tileSize);
-        int gridY = (int)Math.round((player1.getY() - yOffset) / tileSize);
-        if (map[gridX][gridY] instanceof Obstruction == false) {
+        if (map[players[0].getX()][players[0].getY()] instanceof Obstruction == false) {
           //System.out.println(clock.getElapsedTime());
-          map[gridX][gridY] = player1.placeBomb(gridX, gridY);
+          map[players[0].getX()][players[0].getY()] = players[0].placeBomb();
         }
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
-        player2.setYDirection(-1);
+        players[1].setYDirection(-1);
       }
       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
-        player2.setXDirection(1);
+        players[1].setXDirection(1);
       }
       if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
-        player2.setYDirection(1);
+        players[1].setYDirection(1);
       }
       if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
-        player2.setXDirection(-1);
+        players[1].setXDirection(-1);
       }
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
         gameFrame.dispose();
       }
     }
     
-    public void whereCrash(){
-      boolean noWall=true;
-      for (int x = 0; x < mapSize; x++) {
-        for (int y = 0; y < mapSize; y++) {
-          if ((map[x][y] instanceof Wall) || (map[x][y] instanceof Crate)) {
-            if ((player1.getRightBox()).intersects(map[x][y].boundingBox)){
-              player1.setWall1(2);
-              noWall=false;
-            }
-            if ((player1.getUpBox()).intersects(map[x][y].boundingBox)){
-              player1.setWall2(1);
-              noWall=false;
-            }
-            if ((player1.getLeftBox()).intersects(map[x][y].boundingBox)){
-              player1.setWall1(1);
-              noWall=false;
-            }
-            if ((player1.getDownBox()).intersects(map[x][y].boundingBox)){
-              player1.setWall2(2);
-              noWall=false;
-            }
-          }
-          else if (map[x][y] instanceof Powerup) {
-            if ((player1.getRightBox()).intersects(map[x][y].boundingBox)){
-              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
-              map[x][y] = null;
-            }
-            else if ((player1.getUpBox()).intersects(map[x][y].boundingBox)){
-              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
-              map[x][y] = null;
-            }
-            else if ((player1.getLeftBox()).intersects(map[x][y].boundingBox)){
-              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
-              map[x][y] = null;
-            }
-            else if ((player1.getDownBox()).intersects(map[x][y].boundingBox)){
-              player1 = ((Powerup)(map[x][y])).usePowerup(player1);
-              map[x][y] = null;
-            }
-          }
-          else if (map[x][y] instanceof Explosion) {
-            if ((player1.getRightBox()).intersects(map[x][y].boundingBox)){
-              player1.setHealth(player1.getHealth() - 1);
-            }
-            else if ((player1.getUpBox()).intersects(map[x][y].boundingBox)){
-              player1.setHealth(player1.getHealth() - 1);
-            }
-            else if ((player1.getLeftBox()).intersects(map[x][y].boundingBox)){
-              player1.setHealth(player1.getHealth() - 1);
-            }
-            else if ((player1.getDownBox()).intersects(map[x][y].boundingBox)){
-              player1.setHealth(player1.getHealth() - 1);
-            }
-          }
-        }
-      }
-      if(noWall==true){
-        player1.setWall1(0);
-        player1.setWall2(0);
-      }
-    }
-    
     public void keyReleased(KeyEvent e) {
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
-        player1.setYDirection(0);
+        players[0].setYDirection(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-        player1.setXDirection(0);
+        players[0].setXDirection(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
-        player1.setYDirection(0);
+        players[0].setYDirection(0);
       }
       if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
-        player1.setXDirection(0);
+        players[0].setXDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
-        player2.setYDirection(0);
+        players[1].setYDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
-        player2.setXDirection(0);
+        players[1].setXDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
-        player2.setYDirection(0);
+        players[1].setYDirection(0);
       }
       if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
-        player2.setXDirection(0);
+        players[1].setXDirection(0);
       }
     }
   }

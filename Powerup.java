@@ -12,7 +12,7 @@ class Powerup extends Obstruction {
   private int powerupID;
 
   Powerup(int setPowerup, int gridX, int gridY) {
-    super((gridX * 25) + 50, (gridY * 25) + 50);
+    super((gridX * 32) + 64, (gridY * 32) + 64);
     this.powerupID = setPowerup;
   }
 
@@ -53,7 +53,7 @@ class Powerup extends Obstruction {
   
   public void draw(Graphics g) {
     g.setColor(Color.YELLOW); //There are many graphics commands that Java can use
-    g.fillRect((int)(this.getX()), (int)(this.getY()), 25, 25); //notice the y is a variable that we control from our animate method
+    g.fillRect((int)(this.getX()), (int)(this.getY()), 32, 32); //notice the y is a variable that we control from our animate method
   }
   
 }

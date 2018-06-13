@@ -8,8 +8,8 @@ import java.awt.Rectangle;
  */
 class Crate extends Obstruction {
   
-  int height=25;
-  int width=25;
+  int height=32;
+  int width=32;
   Rectangle boundingBox;
 
   Crate(int x, int y){
@@ -18,6 +18,6 @@ class Crate extends Obstruction {
 
   public void draw(Graphics g) {
     g.setColor(Color.GREEN); //There are many graphics commands that Java can use
-    g.fillRect((int)(this.getX()), (int)(this.getY()), 25, 25); //notice the y is a variable that we control from our animate method
+    g.fillRect((int)(this.getX()), (int)(this.getY()), 32, 32); //notice the y is a variable that we control from our animate method
   }
 }
