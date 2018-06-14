@@ -159,7 +159,7 @@ class Human extends Thread{
   public void run(){
     delayed=false;
     try {
-      Thread.sleep(500 - (40 * (this.speed - 1)));
+      Thread.sleep(500 - (60 * (this.speed - 1)));
     } catch (InterruptedException e) {}
     delayed=true;
   }
@@ -169,7 +169,7 @@ class Human extends Thread{
    * Increase speed
    */
   public void addSpeed() {
-    if (this.speed < 10) {
+    if (this.speed < 6) {
       this.speed++;
     }
   }

@@ -170,7 +170,7 @@ class DastardlyDetonator extends JFrame {
           }
           //If current position is explosion, damage player
           if (map[playerX][playerY] instanceof Explosion) {
-              players[0].setHealth(players[0].getHealth() - 1);
+              players[i].setHealth(players[i].getHealth() - 1);
           }
       }
       for (int x = 0; x < mapSize; x++) {
@@ -224,7 +224,7 @@ class DastardlyDetonator extends JFrame {
           g.drawImage(gameOverImage, 0, 0, null);
         }
       }
-      
+      g.setColor(Color.WHITE);
       frameRate.draw(g,10,10);
       
       //request a repaint
