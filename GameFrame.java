@@ -33,7 +33,6 @@ class GameFrame extends JFrame {
     super("Dastardly Detonator");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //Set screen size
-    //this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     this.getContentPane().setPreferredSize(new Dimension(800,800));
     this.pack();
     
