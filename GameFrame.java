@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import java.awt.Toolkit;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Dimension;
 
 //Keyboard imports
 import java.awt.event.KeyEvent;
@@ -29,8 +30,10 @@ class GameFrame extends JFrame {
   GameFrame() {
     super("Dastardly Detonator");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-    this.setUndecorated(true);
+    //Set screen size
+    //this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+    this.getContentPane().setPreferredSize(new Dimension(800,800));
+    this.pack();
     
     gamePanel = new GameAreaPanel();
     this.add(new GameAreaPanel());
@@ -44,6 +47,7 @@ class GameFrame extends JFrame {
     
     this.requestFocusInWindow();
     this.setVisible(true);
+    this.setLocationRelativeTo(null);
     gameFrame=this;
     
     //Start the game loop in a separate thread
@@ -79,13 +83,11 @@ class GameFrame extends JFrame {
 
       map = new Obstruction[mapSize][mapSize];
       
-      playerMap = new Human[mapSize][mapSize];
+      //Create players
       players = new Human[2];
       players[0] = new Human(1, 1, 22);
       players[1] = new Human(mapSize - 2, mapSize - 2, 22);
       
-      playerMap[1][1] = players[0];
-      playerMap[mapSize - 2][mapSize - 2] = players[0];
       //Generate walls of map
       for (int x = 0; x < mapSize; x++) {
         for (int y = 0; y < mapSize; y++) {
