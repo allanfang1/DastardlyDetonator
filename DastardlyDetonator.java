@@ -36,7 +36,6 @@ class DastardlyDetonator extends JFrame {
     
     gamePanel = new GameAreaPanel();
     this.add(new GameAreaPanel());
-        
     this.requestFocusInWindow();
     this.setVisible(true);
     this.setLocationRelativeTo(null);
