@@ -4,14 +4,9 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 class Human extends Thread{
   private int bombCap;
-  private boolean kickable;
-  private boolean throwable;
-  private int crateCap;
   private int blastRange = 1;
   private int health = 3;
   private double speed;
@@ -31,16 +26,12 @@ class Human extends Thread{
   private int wallWhere1;
   private int wallWhere2;
   
-  private Timer timer;
   private boolean delayed=true;
   
   Human(int x, int y, int length/*int newHealth, double newX, double newY*/) {
     //  super(newHealth, newX, newY);
     this.setHealth(3);
     this.bombCap = 1;
-    this.kickable = false;
-    this.throwable = false;
-    this.crateCap = 0;
     this.blastRange = 1;
     this.xPosition = x;
     this.yPosition = y;
@@ -148,8 +139,6 @@ class Human extends Thread{
       this.yPosition += this.yDirection;
       new Thread(this).start();
     }
-    
-    
   }
   
   public void run(){
