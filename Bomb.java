@@ -25,7 +25,7 @@ class Bomb extends Obstruction {
     //Try loading sprite
     try {
       image = ImageIO.read(new File("img/bomb.png"));
-    } catch(Exception e){
+    } catch(Exception e) {
       System.out.println("Error loading img/bomb.png");
     }
   }
@@ -90,7 +90,7 @@ class Bomb extends Obstruction {
     try {
       g.drawImage(image, this.getX(), this.getY(), null);
       //If it failed to load the sprite
-    } catch(Exception e){
+    } catch(Exception e) {
       g.setColor(Color.BLACK);
       g.fillRect((int)(this.getX()), (int)(this.getY()), height, width);
     }

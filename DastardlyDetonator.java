@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.io.File;
-import java.awt.image.*;
-import javax.imageio.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import java.awt.Dimension;
 
 //Keyboard imports
@@ -44,19 +44,19 @@ class DastardlyDetonator extends JFrame {
     
     try {
       gameOverImage = ImageIO.read(new File("img/gameover.png"));
-    } catch(Exception e){
+    } catch(Exception e) {
       System.out.println("Error loading img/gameover.png");
     }
     
     //Start the game loop in a separate thread
-    Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop
+    Thread t = new Thread(new Runnable() {public void run() { animate(); }}); //start the gameLoop
     t.start();
     
   }
   
   //the main gameloop - this is where the game state is updated
   public void animate() {
-    while(!gameOver){
+    while(!gameOver) {
       this.repaint();
     }
     //End game
@@ -70,7 +70,7 @@ class DastardlyDetonator extends JFrame {
   /** --------- INNER CLASSES ------------- **/
   
   // Inner class for the the game area - This is where all the drawing of the screen occurs
-  private class GameAreaPanel extends JPanel implements KeyListener{
+  private class GameAreaPanel extends JPanel implements KeyListener {
     
     FrameRate frameRate;
     Clock clock;
@@ -88,7 +88,7 @@ class DastardlyDetonator extends JFrame {
       //Load empty space image
       try {
         emptySpace = ImageIO.read(new File("img/empty.png"));
-      } catch(Exception e){
+      } catch(Exception e) {
         System.out.println("Error loading img/empty.png");
       }
       map = new Obstruction[mapSize][mapSize];
@@ -155,7 +155,7 @@ class DastardlyDetonator extends JFrame {
           try {
             g.drawImage(emptySpace, x, y, null);
             //If it failed to load the sprite
-          } catch(Exception e){}
+          } catch(Exception e) {}
         }
       }
       

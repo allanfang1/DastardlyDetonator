@@ -31,7 +31,7 @@ class Explosion extends Obstruction {
     //Try loading sprite
     try {
       image = ImageIO.read(new File("img/explosion.png"));
-    } catch(Exception e){
+    } catch(Exception e) {
       System.out.println("Error loading img/explosion.png");
     }
   }

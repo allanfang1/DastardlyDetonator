@@ -15,12 +15,12 @@ class Crate extends Obstruction {
   int width=32;
   BufferedImage image;
   
-  Crate(int x, int y){
+  Crate(int x, int y) {
     super(x, y);
     //Try to load the sprite
     try {
       image = ImageIO.read(new File("img/crate.png"));
-    } catch(Exception e){
+    } catch(Exception e) {
       System.out.println("Error loading img/crate.png");
     }
   }
@@ -33,7 +33,7 @@ class Crate extends Obstruction {
     try {
       g.drawImage(image, this.getX(), this.getY(), null);
       //If it failed to load the sprite
-    } catch(Exception e){
+    } catch(Exception e) {
       g.setColor(Color.GREEN);
       g.fillRect((int)(this.getX()), (int)(this.getY()), height, width);
     }

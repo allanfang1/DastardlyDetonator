@@ -16,7 +16,7 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class StartScreen extends JFrame{
+class StartScreen extends JFrame {
 
   public static void main(String[] args) {
     new StartScreen();
@@ -25,7 +25,7 @@ class StartScreen extends JFrame{
   static ImageIcon titleImage;
   static JFrame bFrame;
 
-  StartScreen(){
+  StartScreen() {
 
     bFrame=new JFrame("Dastardly Detonator");
     bFrame.setSize(800, 800);
@@ -53,7 +53,7 @@ class StartScreen extends JFrame{
    * resize
    * change image size to fit screen
    */
-  static void resize(){
+  static void resize() {
     titleImage = new ImageIcon("img/title.png");
     Image image = titleImage.getImage();
     Image newimg = image.getScaledInstance(800, 800,  java.awt.Image.SCALE_SMOOTH);
@@ -61,7 +61,7 @@ class StartScreen extends JFrame{
   }
 
   static class clickButtonListener implements ActionListener {
-    public void actionPerformed(ActionEvent event)  {
+    public void actionPerformed(ActionEvent event) {
       bFrame.dispose();
       new DastardlyDetonator();
     }
