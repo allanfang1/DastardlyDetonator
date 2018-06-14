@@ -1,8 +1,8 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.io.File;
-import java.awt.image.*;
-import javax.imageio.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 /**
  * Wall
