@@ -1,6 +1,9 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.util.Random;
+import java.io.File;
+import java.awt.image.*;
+import javax.imageio.*;
 
 /**
  * Explosion
@@ -12,7 +15,7 @@ class Explosion extends Obstruction {
   private int xOffset, yOffset, tileSize;
   private double fadeTime;
   private boolean fade;
-  
+  private BufferedImage image;
   
   Explosion(int x, int y, int setTileSize, int setXOffset, int setYOffset) {
     super((x * setTileSize) + setXOffset, (y * setTileSize) + setYOffset);
@@ -23,6 +26,12 @@ class Explosion extends Obstruction {
     this.gridY = y;
     //Fade out after 1 second
     this.fadeTime = (System.nanoTime() / 1.0E9) + 1;
+    //Try loading sprite
+    try {
+      image = ImageIO.read(new File("img/explosion.png"));
+    } catch(Exception e){
+      System.out.println("Error loading img/explosion.png");
+    }
   }
   
   public Obstruction[][] spread(int range, int xDirection, int yDirection, Obstruction[][] map) {
@@ -78,8 +87,12 @@ class Explosion extends Obstruction {
   }
   
   public void draw(Graphics g) {
-    g.setColor(Color.RED); //There are many graphics commands that Java can use
-    g.fillRect((int)(this.getX()), (int)(this.getY()), 32, 32); //notice the y is a variable that we control from our animate method
+    try {
+        g.drawImage(image, this.getX(), this.getY(), null);
+    //If it failed to load the sprite
+    } catch(Exception e){
+        g.setColor(Color.RED);
+        g.fillRect((int)(this.getX()), (int)(this.getY()), height, width);
+    }
   }
-  
 }

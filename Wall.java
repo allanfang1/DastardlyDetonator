@@ -9,9 +9,9 @@ import javax.imageio.*;
  * Represents an unpassable wall block.
  */
 class Wall extends Obstruction {
-  int height=32;
-  int width=32;
-  BufferedImage image;
+  private int height=32;
+  private int width=32;
+  private BufferedImage image;
   
   Wall(int x, int y){
     super(x, y);

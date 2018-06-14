@@ -6,7 +6,8 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 class Human extends Thread{
-  private int bombCap;
+  private int maxBombs;
+  private int currentBombs = 0;
   private int blastRange = 1;
   private int speed;
   private int health;
@@ -18,7 +19,7 @@ class Human extends Thread{
   
   Human(int x, int y) {
     this.setHealth(3);
-    this.bombCap = 1;
+    this.maxBombs = 1;
     this.blastRange = 1;
     this.xPosition = x;
     this.yPosition = y;
@@ -91,6 +92,36 @@ class Human extends Thread{
   }
   
   /**
+<<<<<<< HEAD
+=======
+   * setSpeed
+   * This method sets the speed of this object.
+   * @param The integer value to set this object's speed to.
+   */
+  public void setSpeed(int newSpeed) {
+    this.speed = newSpeed;
+  }
+  
+  /**
+   * getBombs
+   * This method returns this object's number of current bombs.
+   * @return The number of bombs this object owns.
+   */
+  public int getBombs() {
+    return this.currentBombs;
+  }
+  
+  /**
+   * setBombs
+   * This method sets this object's number of current bombs.
+   * @param The integer value to set this object's number of current bombs to.
+   */
+  public void setBombs(int newBombs) {
+    this.currentBombs = newBombs;
+  }
+  
+  /**
+>>>>>>> 329aa96ab096655f1270d8d24f1ae17deec4294b
    * move
    * This method moves the object.
    * @param The elapsed time from the last screen refresh to this screen refresh.
@@ -106,7 +137,6 @@ class Human extends Thread{
     //Check Y direction
     if ((this.yDirection!=0) && (map[this.xPosition][tempY] instanceof Wall == false) && (map[this.xPosition][tempY] instanceof Crate == false) && (map[this.xPosition][tempY] instanceof Bomb == false) && (delayed==true)) {
       this.yPosition += this.yDirection;
-      drawMove(g);
       new Thread(this).start();
     }
   }
@@ -127,8 +157,8 @@ class Human extends Thread{
   }
   
   public void addBombs() {
-    if (this.bombCap < 10) {
-      this.bombCap++;
+    if (this.maxBombs < 10) {
+      this.maxBombs++;
     }
   }
   
@@ -164,17 +194,13 @@ class Human extends Thread{
     g.setColor(Color.RED); //There are many graphics commands that Java can use
     g.fillRect((int)xPosition * 32 + 64, (int)yPosition * 32 + 64, 32, 32); //notice the y is a variable that we control from our animate method
   }
-  
-  public void drawMove(Graphics g) {
-    g.setColor(Color.RED); //There are many graphics commands that Java can use
-    if (yDirection==-1){
-      for (int a=64; a>55; a--){
-        g.fillRect((int)xPosition * 32 + 64, (int)yPosition * 32 + a, 32, 32);
-      }
+    
+  public Bomb placeBomb(int owner) {
+    //Make sure player does not exceed maximum number of 
+    if (this.currentBombs < this.maxBombs) {
+      currentBombs++;
+      return (new Bomb(this.blastRange, 3, this.xPosition, this.yPosition, owner));
     }
-  }
-  
-  public Bomb placeBomb() {
-    return (new Bomb(this.blastRange, 3, this.xPosition, this.yPosition));
+    return null;
   }
 }

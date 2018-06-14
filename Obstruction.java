@@ -8,14 +8,12 @@ import java.awt.Rectangle;
 abstract class Obstruction {
   //Coordinates of this obstruction
   public int xPosition, yPosition;
-  public Rectangle boundingBox;
   int height=32;
   int width=32;
   
   Obstruction(int x, int y) {
     this.xPosition = x;
     this.yPosition = y;
-    this.boundingBox = new Rectangle((int)(this.xPosition), (int)(this.yPosition), width, height);
   }
   
   /**
