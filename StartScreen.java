@@ -20,7 +20,7 @@ class StartScreen extends JFrame{
     new StartScreen();
   }
 
-  static ImageIcon bananaimg;
+  static ImageIcon titleImage;
   static JFrame bFrame;
 
   StartScreen(){
@@ -37,7 +37,7 @@ class StartScreen extends JFrame{
     clickButton.addActionListener(new clickButtonListener());
 
     resize();
-    JLabel label=new JLabel(bananaimg, JLabel.CENTER);
+    JLabel label=new JLabel(titleImage, JLabel.CENTER);
 
     mainPanel.setLayout(new BorderLayout());
     mainPanel.add(clickButton, BorderLayout.CENTER);
@@ -48,10 +48,10 @@ class StartScreen extends JFrame{
   }
 
   static void resize(){
-    bananaimg=new ImageIcon("img/title.png");
-    Image image = bananaimg.getImage();
+    titleImage = new ImageIcon("img/title.png");
+    Image image = titleImage.getImage();
     Image newimg = image.getScaledInstance(800, 800,  java.awt.Image.SCALE_SMOOTH);
-    bananaimg = new ImageIcon(newimg);
+    titleImage = new ImageIcon(newimg);
   }
 
   static class clickButtonListener implements ActionListener {

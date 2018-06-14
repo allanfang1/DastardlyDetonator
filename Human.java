@@ -145,7 +145,7 @@ class Human extends Thread{
     delayed=false;
     try {
       System.out.println(this.speed);
-      Thread.sleep(750 - (25 * this.speed));
+      Thread.sleep(500 - (25 * (this.speed - 1)));
     } catch (InterruptedException e) {}
     delayed=true;
   }

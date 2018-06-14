@@ -24,6 +24,7 @@ class GameFrame extends JFrame {
   
   static GameAreaPanel gamePanel;
   static JFrame gameFrame;
+  private BufferedImage gameOverImage;
   boolean gameOver = false;
   
   GameFrame() {
@@ -41,6 +42,12 @@ class GameFrame extends JFrame {
     this.setLocationRelativeTo(null);
     gameFrame=this;
     
+    try {
+      gameOverImage = ImageIO.read(new File("img/gameover.png"));
+    } catch(Exception e){
+      System.out.println("Error loading img/gameover.png");
+    }
+    
     //Start the game loop in a separate thread
     Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop
     t.start();
@@ -52,6 +59,10 @@ class GameFrame extends JFrame {
     while(!gameOver){
       this.repaint();
     }
+    //End game
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {}
     this.dispose();
     new StartScreen();
   }
@@ -210,6 +221,7 @@ class GameFrame extends JFrame {
         }
         else {
           gameOver = true;
+          g.drawImage(gameOverImage, 0, 0, null);
         }
       }
       
