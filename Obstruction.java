@@ -1,8 +1,9 @@
-/**
- * Obstruction
- * Represents an unpassable block.
- * 
- */
+/** 
+ * [Obstruction.java] 
+ * Objects that prevent player movement
+ * June 14 2018 
+ */ 
+
 abstract class Obstruction {
   //Coordinates of this obstruction
   public int xPosition, yPosition;
@@ -49,5 +50,4 @@ abstract class Obstruction {
   public void setY(int newY) {
     this.yPosition = newY;
   }
-
 }

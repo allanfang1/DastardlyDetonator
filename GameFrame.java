@@ -1,5 +1,5 @@
 /**
- * Dastardly Detonator
+ * [DastardlyDetonator.java]
  * ICS3U6 Final
  * @author Victor Lin and Allan Fang
  **/
@@ -20,14 +20,14 @@ import java.awt.event.KeyListener;
 
 import java.util.Random;
 
-class GameFrame extends JFrame {
+class DastardlyDetonator extends JFrame {
   
   static GameAreaPanel gamePanel;
-  static JFrame gameFrame;
+  static JFrame dastardlyDetonator;
   private BufferedImage gameOverImage;
   boolean gameOver = false;
   
-  GameFrame() {
+  DastardlyDetonator() {
     super("Dastardly Detonator");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //Set screen size
@@ -40,7 +40,7 @@ class GameFrame extends JFrame {
     this.requestFocusInWindow();
     this.setVisible(true);
     this.setLocationRelativeTo(null);
-    gameFrame=this;
+    dastardlyDetonator=this;
     
     try {
       gameOverImage = ImageIO.read(new File("img/gameover.png"));
@@ -275,7 +275,7 @@ class GameFrame extends JFrame {
       }
       //Quit game
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
-        gameFrame.dispose();
+        dastardlyDetonator.dispose();
       }
     }
     

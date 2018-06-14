@@ -1,6 +1,8 @@
-/**
- * starting page
-**/
+/** 
+ * [StartScreen.java] 
+ * Menu of the game
+ * June 14 2018 
+ */ 
 
 //imports
 import javax.swing.JFrame;
@@ -47,6 +49,10 @@ class StartScreen extends JFrame{
     bFrame.setVisible(true);
   }
 
+  /**
+   * resize
+   * change image size to fit screen
+   */
   static void resize(){
     titleImage = new ImageIcon("img/title.png");
     Image image = titleImage.getImage();
@@ -57,7 +63,7 @@ class StartScreen extends JFrame{
   static class clickButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event)  {
       bFrame.dispose();
-      new GameFrame();
+      new DastardlyDetonator();
     }
   }
 }

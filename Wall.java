@@ -1,3 +1,9 @@
+/** 
+ * [Wall.java] 
+ * unbreakable wall object
+ * June 14 2018 
+ */ 
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.io.File;

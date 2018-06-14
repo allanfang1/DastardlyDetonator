@@ -1,12 +1,15 @@
+/** 
+ * [Human.java] 
+ * The player characters
+ * June 14 2018 
+ */ 
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-/**
- * Human object
- */
 class Human extends Thread{
   private int maxBombs;
   private int currentBombs = 0;
@@ -156,7 +159,6 @@ class Human extends Thread{
   public void run(){
     delayed=false;
     try {
-      System.out.println(this.speed);
       Thread.sleep(500 - (40 * (this.speed - 1)));
     } catch (InterruptedException e) {}
     delayed=true;

@@ -1,3 +1,9 @@
+/** 
+ * [Powerup.java] 
+ * Changes the stats of player
+ * June 14 2018 
+ */ 
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.io.File;
@@ -33,6 +39,12 @@ class Powerup extends Obstruction {
     return this.powerupID;
   }
   
+  /**
+   * usePowerup
+   * This method returns this powerup's ID.
+   * @param the targeted player of powerup
+   * @return the player with changed stats
+   */
   Human usePowerup(Human player) {
     if (this.powerupID == 0) {
       player.addSpeed();
