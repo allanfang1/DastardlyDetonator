@@ -1,5 +1,3 @@
-import java.awt.Rectangle;
-
 /**
  * Obstruction
  * Represents an unpassable block.

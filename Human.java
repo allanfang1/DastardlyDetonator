@@ -3,7 +3,6 @@
  */
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
 
 class Human extends Thread{
   private int maxBombs;

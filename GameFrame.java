@@ -18,10 +18,6 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-//Mouse imports
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-
 import java.util.Random;
 
 class GameFrame extends JFrame {
@@ -307,29 +303,6 @@ class GameFrame extends JFrame {
   }
   
 // -----------  Inner class for the keyboard listener - this detects key presses and runs the corresponding code
-//private class MyKeyListener implements KeyListener { } //end of keyboard listener
-  
-// -----------  Inner class for the keyboard listener - This detects mouse movement & clicks and runs the corresponding methods
-  private class MyMouseListener implements MouseListener {
-    
-    public void mouseClicked(MouseEvent e) {
-      System.out.println("Mouse Clicked");
-      System.out.println("X:"+e.getX() + " y:"+e.getY());
-    }
-    
-    public void mousePressed(MouseEvent e) {
-    }
-    
-    public void mouseReleased(MouseEvent e) {
-    }
-    
-    public void mouseEntered(MouseEvent e) {
-    }
-    
-    public void mouseExited(MouseEvent e) {
-    }
-  } //end of mouselistener
-  
 //A class to track time
   
   class Clock {
