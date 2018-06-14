@@ -1,5 +1,8 @@
 import java.awt.Graphics;
 import java.awt.Color;
+import java.io.File;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 class Powerup extends Obstruction {
   /* Powerup list:
@@ -9,10 +12,16 @@ class Powerup extends Obstruction {
    */
 
   private int powerupID;
+  private BufferedImage image;
 
   Powerup(int setPowerup, int gridX, int gridY) {
     super((gridX * 32) + 64, (gridY * 32) + 64);
     this.powerupID = setPowerup;
+    try {
+      image = ImageIO.read(new File("img/powerup" + this.powerupID + ".png"));
+    } catch(Exception e){
+      System.out.println("Error loading img/powerup" + this.powerupID + ".png");
+    }
   }
 
   /**
@@ -47,8 +56,12 @@ class Powerup extends Obstruction {
   }
   
   public void draw(Graphics g) {
-    g.setColor(Color.YELLOW); //There are many graphics commands that Java can use
-    g.fillRect((int)(this.getX()), (int)(this.getY()), 32, 32); //notice the y is a variable that we control from our animate method
+    try {
+        g.drawImage(image, this.getX(), this.getY(), null);
+    //If it failed to load the sprite
+    } catch(Exception e) {
+        g.setColor(Color.YELLOW);
+        g.fillRect((int)(this.getX()), (int)(this.getY()), height, width);
+    }
   }
-  
 }

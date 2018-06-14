@@ -102,8 +102,8 @@ class GameFrame extends JFrame {
       
       //Create players
       players = new Human[2];
-      players[0] = new Human(1, 1);
-      players[1] = new Human(mapSize - 2, mapSize - 2);
+      players[0] = new Human(1, 1, 0);
+      players[1] = new Human(mapSize - 2, mapSize - 2, 1);
       
       //Generate walls of map
       for (int x = 0; x < mapSize; x++) {

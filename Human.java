@@ -1,22 +1,27 @@
+import java.awt.Graphics;
+import java.awt.Color;
+import java.io.File;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
 /**
  * Human object
  */
-import java.awt.Graphics;
-import java.awt.Color;
-
 class Human extends Thread{
   private int maxBombs;
   private int currentBombs = 0;
   private int blastRange = 1;
   private int speed;
   private int health;
+  private int player;
+  private BufferedImage image;
   
   private int xPosition, yPosition;
   private int xDirection, yDirection;
   
   private boolean delayed=true;
   
-  Human(int x, int y) {
+  Human(int x, int y, int playerNum) {
     this.setHealth(3);
     this.maxBombs = 1;
     this.blastRange = 1;
@@ -25,6 +30,13 @@ class Human extends Thread{
     this.xDirection = 0;
     this.yDirection = 0;
     this.speed = 0;
+    this.player = playerNum;
+    try {
+      image = ImageIO.read(new File("img/player" + this.player + ".png"));
+    } catch(Exception e){
+      System.out.println("Error loading img/player" + this.player + ".png");
+    }
+    
   }
   
   /**
@@ -189,8 +201,13 @@ class Human extends Thread{
   }
   
   public void draw(Graphics g) {
-    g.setColor(Color.RED); //There are many graphics commands that Java can use
-    g.fillRect((int)xPosition * 32 + 64, (int)yPosition * 32 + 64, 32, 32); //notice the y is a variable that we control from our animate method
+    try {
+      g.drawImage(image, this.xPosition * 32 + 64, this.yPosition * 32 + 64, null);
+      //If it failed to load the sprite
+    } catch(Exception e){
+      g.setColor(Color.RED);
+      g.fillRect(this.xPosition * 32 + 64, this.yPosition * 32 + 64, 32, 32);
+    }
   }
     
   public Bomb placeBomb(int owner) {
