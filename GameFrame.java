@@ -35,14 +35,7 @@ class GameFrame extends JFrame {
     
     gamePanel = new GameAreaPanel();
     this.add(new GameAreaPanel());
-    
-    /*MyKeyListener keyListener = new MyKeyListener();
-     this.addKeyListener(keyListener);
-     
-     MyMouseListener mouseListener = new MyMouseListener();
-     this.addMouseListener(mouseListener);
-     */
-    
+        
     this.requestFocusInWindow();
     this.setVisible(true);
     this.setLocationRelativeTo(null);
@@ -145,11 +138,7 @@ class GameFrame extends JFrame {
       
       //update the content
       clock.update();
-      frameRate.update();
-      //players[0].update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
-      
-      //draw the screen
-      
+      frameRate.update();            
       for (int x = 0; x < ((mapSize + 4)* tileSize); x += tileSize) {
         for (int y = 0; y < ((mapSize + 4)* tileSize); y += tileSize) {
           try {
@@ -358,6 +347,7 @@ class GameFrame extends JFrame {
         deltaTime=0;  //reset the elapsed time
       }
     }
+    
     public void draw(Graphics g, int x, int y) {
       g.drawString(frameRate,x,y); //display the frameRate
     }

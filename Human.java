@@ -91,8 +91,6 @@ class Human extends Thread{
   }
   
   /**
-<<<<<<< HEAD
-=======
    * setSpeed
    * This method sets the speed of this object.
    * @param The integer value to set this object's speed to.
@@ -122,7 +120,7 @@ class Human extends Thread{
   /**
    * move
    * This method moves the object.
-   * @param The elapsed time from the last screen refresh to this screen refresh.
+   * @param the current condition of the map.
    */
   public void move(Obstruction[][] map) {
     int tempX = this.xPosition + this.xDirection;
@@ -139,6 +137,10 @@ class Human extends Thread{
     }
   }
   
+  /**
+   * run
+   * allows movements after time delay
+   */
   public void run(){
     delayed=false;
     try {
@@ -148,42 +150,64 @@ class Human extends Thread{
     delayed=true;
   }
   
+  /**
+   * addSpeed
+   * Increase speed
+   */
   public void addSpeed() {
     if (this.speed < 10) {
       this.speed++;
     }
   }
   
+  /**
+   * addBombs
+   * increase bomb cap
+   */
   public void addBombs() {
     if (this.maxBombs < 10) {
       this.maxBombs++;
     }
   }
   
+  /**
+   * addRange
+   * Increases player bomb radius
+   */
   public void addRange() {
     if (this.blastRange < 10) {
       this.blastRange++;
     }
   }
   
-  public void addHealth() {
-    if (this.getHealth() < 3) {
-      this.setHealth(this.getHealth() + 1);
-    }
-  }
-  
+  /**
+   * getXDirection
+   * @return give the x movement
+   */
   public int getXDirection() {
     return xDirection;
   }
   
+  /**
+   * getYDirection
+   * @return give the y movement
+   */
   public int getYDirection() {
     return yDirection;
   }
   
+  /**
+   * setXDirection
+   * @param set x movement
+   */
   public void setXDirection(int direction) {
     this.xDirection = direction;
   }
   
+  /**
+   * getYDirection
+   * @param set the y movement
+   */
   public void setYDirection(int direction) {
     this.yDirection = direction;
   }
@@ -192,7 +216,12 @@ class Human extends Thread{
     g.setColor(Color.RED); //There are many graphics commands that Java can use
     g.fillRect((int)xPosition * 32 + 64, (int)yPosition * 32 + 64, 32, 32); //notice the y is a variable that we control from our animate method
   }
-    
+   
+  /**
+   * placeBomb
+   * @param player that owns the bomb
+   * @return generate new bomb
+   */
   public Bomb placeBomb(int owner) {
     //Make sure player does not exceed maximum number of 
     if (this.currentBombs < this.maxBombs) {
