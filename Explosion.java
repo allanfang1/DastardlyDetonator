@@ -57,10 +57,12 @@ class Explosion extends Obstruction {
       else if (tempMap[gridX + xDirection][gridY + yDirection]  instanceof Crate) {
         Random rand = new Random();
         if (rand.nextInt(4) == 0) { //25% chance to spawn a powerup
-          tempMap[gridX + xDirection][gridY + yDirection] = new Powerup(rand.nextInt(4), gridX + xDirection, gridY + yDirection);
+          //Generate powerup
+          tempMap[gridX + xDirection][gridY + yDirection] = new Powerup(rand.nextInt(3), gridX + xDirection, gridY + yDirection);
           return tempMap;
         }
         else {
+          //Spread explosion
           tempMap[gridX + xDirection][gridY + yDirection] = new Explosion(this.gridX + xDirection, this.gridY + yDirection, this.tileSize, this.xOffset, this.yOffset);
           return ((Explosion)(tempMap[gridX + xDirection][gridY + yDirection])).spread(range - 1, xDirection, yDirection, tempMap);
         }

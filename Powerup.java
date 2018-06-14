@@ -6,7 +6,6 @@ class Powerup extends Obstruction {
    * 0 = speed
    * 1 = max bombs
    * 2 = explosion range
-   * 3 = add health
    */
 
   private int powerupID;
@@ -34,9 +33,6 @@ class Powerup extends Obstruction {
     }
     else if (this.powerupID == 2) {
       player.addRange();
-    }
-    else if (this.powerupID == 3) {
-      player.addHealth();
     }
     return player;
   }
