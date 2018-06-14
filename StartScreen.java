@@ -25,7 +25,7 @@ class StartScreen extends JFrame{
 
   StartScreen(){
 
-    bFrame=new JFrame("Bomberman But Not Really");
+    bFrame=new JFrame("Dastardly Detonator");
     bFrame.setSize(800, 800);
     bFrame.setLocationRelativeTo(null);
     bFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,7 +48,7 @@ class StartScreen extends JFrame{
   }
 
   static void resize(){
-    bananaimg=new ImageIcon("banana.png");
+    bananaimg=new ImageIcon("img/title.png");
     Image image = bananaimg.getImage();
     Image newimg = image.getScaledInstance(800, 800,  java.awt.Image.SCALE_SMOOTH);
     bananaimg = new ImageIcon(newimg);
