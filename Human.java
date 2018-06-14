@@ -121,7 +121,6 @@ class Human extends Thread{
   }
   
   /**
->>>>>>> 329aa96ab096655f1270d8d24f1ae17deec4294b
    * move
    * This method moves the object.
    * @param The elapsed time from the last screen refresh to this screen refresh.
