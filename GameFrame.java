@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import java.awt.Toolkit;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.io.File;
+import java.awt.image.*;
+import javax.imageio.*;
 import java.awt.Dimension;
 
 //Keyboard imports
@@ -77,10 +80,17 @@ class GameFrame extends JFrame {
     int xOffset = 64;
     int yOffset = 64;
     int tileSize = 32;
+    BufferedImage emptySpace;
     
     GameAreaPanel () {
       frameRate = new FrameRate();
-
+      
+      //Load empty space image
+      try {
+        emptySpace = ImageIO.read(new File("img/empty.png"));
+      } catch(Exception e){
+        System.out.println("Error loading img/empty.png");
+      }
       map = new Obstruction[mapSize][mapSize];
       
       //Create players
@@ -143,14 +153,16 @@ class GameFrame extends JFrame {
       //players[0].update(clock.getElapsedTime());  //you can 'pause' the game by forcing elapsed time to zero
       
       //draw the screen
-      if (players[0].getHealth() > 0) {
-       players[0].move(map);
-       players[0].draw(g);
+      
+      for (int x = 0; x < ((mapSize + 4)* tileSize); x += tileSize) {
+        for (int y = 0; y < ((mapSize + 4)* tileSize); y += tileSize) {
+          try {
+            g.drawImage(emptySpace, x, y, null);
+            //If it failed to load the sprite
+          } catch(Exception e){}
+        }
       }
-      if (players[1].getHealth() > 0) {
-       players[1].move(map);
-       players[1].draw(g);
-      }
+      
       //Check current player positions
       for (int i = 0; i < players.length; i++) {
           int playerX = players[i].getX();
@@ -177,6 +189,9 @@ class GameFrame extends JFrame {
             //Check if bomb has exploded
             ((Bomb)map[x][y]).update();
             if (((Bomb)map[x][y]).hasExploded()) {
+              //Reduce player's number of current bombs
+              int bombOwner = ((Bomb)map[x][y]).getOwner();
+              players[bombOwner].setBombs(players[bombOwner].getBombs() - 1);
               int range = ((Bomb)map[x][y]).getRange();
               map[x][y] = new Explosion(x, y, tileSize, xOffset, yOffset);
               map = ((Explosion)map[x][y]).spread(range, 1, 0, map);
@@ -191,7 +206,6 @@ class GameFrame extends JFrame {
           else if (map[x][y] instanceof Explosion) {
             ((Explosion)map[x][y]).update();
             if (((Explosion)(map[x][y])).shouldFade()) {
-              //TODO: this is probably not a good idea
               map[x][y] = null;
             }
             else {
@@ -203,6 +217,16 @@ class GameFrame extends JFrame {
           }
         }
       }
+      //Check if players are dead
+      if (players[0].getHealth() > 0) {
+        players[0].move(map);
+        players[0].draw(g);
+      }
+      if (players[1].getHealth() > 0) {
+        players[1].move(map);
+        players[1].draw(g);
+      }
+      
       frameRate.draw(g,10,10);
       
       //request a repaint
@@ -213,37 +237,45 @@ class GameFrame extends JFrame {
     }
     
     public void keyPressed(KeyEvent e) {
-      //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //If 'W' is pressed
+      //Player 1 controls
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {  //W
         players[0].setYDirection(-1);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //D
         players[0].setXDirection(1);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //If 'S' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {  //S
         players[0].setYDirection(1);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //If 'A' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {  //A
         players[0].setXDirection(-1);
       }
-      if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //If 'C' is pressed
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("C")) {  //C
+        //Make sure player is not trying to place bomb on an existent tile
         if (map[players[0].getX()][players[0].getY()] instanceof Obstruction == false) {
-          //System.out.println(clock.getElapsedTime());
-          map[players[0].getX()][players[0].getY()] = players[0].placeBomb();
+          map[players[0].getX()][players[0].getY()] = players[0].placeBomb(0);
         }
       }
-      if (e.getKeyCode() == KeyEvent.VK_UP) {  //If 'W' is pressed
+      //Player 2 controls
+      if (e.getKeyCode() == KeyEvent.VK_UP) {  //Up
         players[1].setYDirection(-1);
       }
-      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //If 'D' is pressed
+      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {  //Right
         players[1].setXDirection(1);
       }
-      if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //If 'S' is pressed
+      if (e.getKeyCode() == KeyEvent.VK_DOWN) {  //Down
         players[1].setYDirection(1);
       }
-      if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //If 'A' is pressed
+      if (e.getKeyCode() == KeyEvent.VK_LEFT) {  //Left
         players[1].setXDirection(-1);
       }
+      if (KeyEvent.getKeyText(e.getKeyCode()).equals("M")) {  //M
+        //Make sure player is not trying to place bomb on an existent tile
+        if (map[players[1].getX()][players[1].getY()] instanceof Obstruction == false) {
+          map[players[1].getX()][players[1].getY()] = players[1].placeBomb(1);
+        }
+      }
+      //Quit game
       if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
         gameFrame.dispose();
       }

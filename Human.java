@@ -6,7 +6,8 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 class Human extends Thread{
-  private int bombCap;
+  private int maxBombs;
+  private int currentBombs = 0;
   private int blastRange = 1;
   private int health = 3;
   private int speed;
@@ -31,7 +32,7 @@ class Human extends Thread{
   Human(int x, int y, int length/*int newHealth, double newX, double newY*/) {
     //  super(newHealth, newX, newY);
     this.setHealth(3);
-    this.bombCap = 1;
+    this.maxBombs = 1;
     this.blastRange = 1;
     this.xPosition = x;
     this.yPosition = y;
@@ -119,6 +120,24 @@ class Human extends Thread{
   }
   
   /**
+   * getBombs
+   * This method returns this object's number of current bombs.
+   * @return The number of bombs this object owns.
+   */
+  public int getBombs() {
+    return this.currentBombs;
+  }
+  
+  /**
+   * setBombs
+   * This method sets this object's number of current bombs.
+   * @param The integer value to set this object's number of current bombs to.
+   */
+  public void setBombs(int newBombs) {
+    this.currentBombs = newBombs;
+  }
+  
+  /**
    * move
    * This method moves the object.
    * @param The elapsed time from the last screen refresh to this screen refresh.
@@ -156,8 +175,8 @@ class Human extends Thread{
   }
   
   public void addBombs() {
-    if (this.bombCap < 10) {
-      this.bombCap++;
+    if (this.maxBombs < 10) {
+      this.maxBombs++;
     }
   }
   
@@ -226,23 +245,12 @@ class Human extends Thread{
    downBox.y=((int)yPosition)+23;
    }*/
   
-  public int getWall1() {
-    return wallWhere1;
-  }
-  
-  public int getWall2() {
-    return wallWhere2;
-  }
-  
-  public void setWall1(int setWall) {
-    this.wallWhere1 = setWall;
-  }
-  
-  public void setWall2(int setWall) {
-    this.wallWhere2 = setWall;
-  }
-  
-  public Bomb placeBomb() {
-    return (new Bomb(this.blastRange, 3, this.xPosition, this.yPosition));
+  public Bomb placeBomb(int owner) {
+    //Make sure player does not exceed maximum number of 
+    if (this.currentBombs < this.maxBombs) {
+      currentBombs++;
+      return (new Bomb(this.blastRange, 3, this.xPosition, this.yPosition, owner));
+    }
+    return null;
   }
 }
