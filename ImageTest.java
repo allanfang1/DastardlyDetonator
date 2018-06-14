@@ -10,13 +10,13 @@ import javax.swing.JButton;
 public class ImageTest {
 
   public static void main(String[] args) {
-    ImagePanel panel = new ImagePanel(new ImageIcon("").getImage());
+    ImagePanel panel = new ImagePanel(new ImageIcon("banana.png").getImage());
 
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Bomberman But Not Really");
     
     JButton clickButton=new JButton("Start");
-   // clickButton.setFont(new Font("Arial", Font.PLAIN, 30));
-  //  clickButton.addActionListener(new clickButtonListener());
+ //   clickButton.setFont(new Font("Arial", Font.PLAIN, 30));
+   // clickButton.addActionListener(new clickButtonListener());
     panel.add(clickButton);
     frame.getContentPane().add(panel);
     frame.pack();

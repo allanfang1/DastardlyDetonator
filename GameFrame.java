@@ -7,7 +7,6 @@
 //Graphics &GUI imports
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Toolkit;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -72,7 +71,6 @@ class GameFrame extends JFrame {
     Clock clock;
     Obstruction[][] map;
     Human[] players;
-    Human[][] playerMap;
     int mapSize = 21;
     int xOffset = 64;
     int yOffset = 64;
@@ -85,8 +83,8 @@ class GameFrame extends JFrame {
       
       //Create players
       players = new Human[2];
-      players[0] = new Human(1, 1, 22);
-      players[1] = new Human(mapSize - 2, mapSize - 2, 22);
+      players[0] = new Human(1, 1);
+      players[1] = new Human(mapSize - 2, mapSize - 2);
       
       //Generate walls of map
       for (int x = 0; x < mapSize; x++) {
@@ -326,10 +324,7 @@ class GameFrame extends JFrame {
   
   
 //A class to represent the object moving around on the screen
-  
-  //Move player
-  
-  
+    
   //Better to abstract the FrameRate stuff
   class FrameRate {
     
