@@ -24,6 +24,7 @@ class GameFrame extends JFrame {
   
   static GameAreaPanel gamePanel;
   static JFrame gameFrame;
+  boolean gameOver = false;
   
   GameFrame() {
     super("Dastardly Detonator");
@@ -55,9 +56,11 @@ class GameFrame extends JFrame {
   
   //the main gameloop - this is where the game state is updated
   public void animate() {
-    while(true){
+    while(!gameOver){
       this.repaint();
     }
+    this.dispose();
+    new StartScreen();
   }
   
   /** --------- INNER CLASSES ------------- **/
@@ -211,13 +214,14 @@ class GameFrame extends JFrame {
         }
       }
       //Check if players are dead
-      if (players[0].getHealth() > 0) {
-        players[0].move(map);
-        players[0].draw(g);
-      }
-      if (players[1].getHealth() > 0) {
-        players[1].move(map);
-        players[1].draw(g);
+      for (int i = 0; i < players.length; i++) {
+        if (players[i].getHealth() > 0) {
+          players[i].move(map);
+          players[i].draw(g);
+        }
+        else {
+          gameOver = true;
+        }
       }
       
       frameRate.draw(g,10,10);
