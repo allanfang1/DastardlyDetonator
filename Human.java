@@ -4,8 +4,10 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.Timer;
+import java.util.TimerTask;
 
-class Human {
+class Human extends Thread{
   private int bombCap;
   private boolean kickable;
   private boolean throwable;
@@ -28,6 +30,9 @@ class Human {
   private int axis;
   private int wallWhere1;
   private int wallWhere2;
+  
+  private Timer timer;
+  private boolean delayed=true;
   
   Human(int x, int y, int length/*int newHealth, double newX, double newY*/) {
     //  super(newHealth, newX, newY);
@@ -58,7 +63,7 @@ class Human {
   public int getX() {
     return this.xPosition;
   }
-
+  
   /**
    * setX
    * This method sets the X-position of this object.
@@ -67,7 +72,7 @@ class Human {
   public void setX(int newX) {
     this.xPosition = newX;
   }
-
+  
   /**
    * getY
    * This method returns this object's Y-position.
@@ -76,7 +81,7 @@ class Human {
   public int getY() {
     return this.yPosition;
   }
-
+  
   /**
    * setY
    * This method sets the Y-position of this object.
@@ -94,7 +99,7 @@ class Human {
   public int getHealth() {
     return this.health;
   }
-
+  
   /**
    * setHealth
    * This method sets the health of this object.
@@ -103,7 +108,7 @@ class Human {
   public void setHealth(int newHealth) {
     this.health = newHealth;
   }
-
+  
   /**
    * getSpeed
    * This method returns this object's speed.
@@ -112,7 +117,7 @@ class Human {
   public double getSpeed() {
     return this.speed;
   }
-
+  
   /**
    * setSpeed
    * This method sets the speed of this object.
@@ -121,7 +126,7 @@ class Human {
   public void setSpeed(double newSpeed) {
     this.speed = newSpeed;
   }
-
+  
   /**
    * move
    * This method moves the object.
@@ -130,17 +135,30 @@ class Human {
   public void move(Obstruction[][] map) {
     //this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
     //this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
+    Thread myCounter = new Thread(this);
     int tempX = this.xPosition + this.xDirection;
     int tempY = this.yPosition + this.yDirection;
     //Check X direction
-    if ((map[tempX][this.yPosition] instanceof Wall == false) && (map[tempX][this.yPosition] instanceof Crate == false) && (map[tempX][this.yPosition] instanceof Bomb == false)) {
-            this.xPosition += this.xDirection;
+    if ((map[tempX][this.yPosition] instanceof Wall == false) && (map[tempX][this.yPosition] instanceof Crate == false) && (map[tempX][this.yPosition] instanceof Bomb == false) && (delayed==true)) {
+      this.xPosition += this.xDirection;
+      new Thread(this).start();
     }
     //Check Y direction
-    if ((map[this.xPosition][tempY] instanceof Wall == false) && (map[this.xPosition][tempY] instanceof Crate == false) && (map[this.xPosition][tempY] instanceof Bomb == false)) {
-            this.yPosition += this.yDirection;
+    if ((map[this.xPosition][tempY] instanceof Wall == false) && (map[this.xPosition][tempY] instanceof Crate == false) && (map[this.xPosition][tempY] instanceof Bomb == false) && (delayed==true)) {
+      this.yPosition += this.yDirection;
+      new Thread(this).start();
     }
-	  
+    
+    
+  }
+  
+  public void run(){
+    delayed=false;
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+    }
+    delayed=true;
   }
   
   public void addSpeed() {
@@ -205,20 +223,20 @@ class Human {
   }
   
   /*public void moveX(double elapsedTime) {
-    this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
-    rightBox.x=((int)xPosition)+23;
-    leftBox.x=((int)xPosition)-1;
-    upBox.x=((int)xPosition);
-    downBox.x=((int)xPosition);
-  }
-  
-  public void moveY(double elapsedTime) {
-    this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
-    rightBox.y=((int)yPosition)+1;
-    leftBox.y=((int)yPosition)+1;
-    upBox.y=(int)yPosition;
-    downBox.y=((int)yPosition)+23;
-  }*/
+   this.xPosition += (this.xDirection * this.speed * elapsedTime * 100);
+   rightBox.x=((int)xPosition)+23;
+   leftBox.x=((int)xPosition)-1;
+   upBox.x=((int)xPosition);
+   downBox.x=((int)xPosition);
+   }
+   
+   public void moveY(double elapsedTime) {
+   this.yPosition += (this.yDirection * this.speed * elapsedTime * 100);
+   rightBox.y=((int)yPosition)+1;
+   leftBox.y=((int)yPosition)+1;
+   upBox.y=(int)yPosition;
+   downBox.y=((int)yPosition)+23;
+   }*/
   
   public int getWall1() {
     return wallWhere1;

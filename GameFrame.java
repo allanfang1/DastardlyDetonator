@@ -142,12 +142,12 @@ class GameFrame extends JFrame {
       
       //draw the screen
       if (players[0].getHealth() > 0) {
-    	  players[0].move(map);
-    	  players[0].draw(g);
+       players[0].move(map);
+       players[0].draw(g);
       }
       if (players[1].getHealth() > 0) {
-    	  players[1].move(map);
-    	  players[1].draw(g);
+       players[1].move(map);
+       players[1].draw(g);
       }
       //Check current player positions
       for (int i = 0; i < players.length; i++) {
