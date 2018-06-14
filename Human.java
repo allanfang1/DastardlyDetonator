@@ -14,7 +14,7 @@ class Human extends Thread{
   private int crateCap;
   private int blastRange = 1;
   private int health = 3;
-  private double speed;
+  private int speed;
   
   private int height = 25;
   private int width = 25;
@@ -46,7 +46,7 @@ class Human extends Thread{
     this.yPosition = y;
     this.xDirection = 0;
     this.yDirection = 0;
-    this.speed = 2;
+    this.speed = 1;
     this.height = length;
     this.width = length;
     this.rightBox = new Rectangle(((int)xPosition)+23, ((int)yPosition)+1, 1, length);//22
@@ -123,7 +123,7 @@ class Human extends Thread{
    * This method sets the speed of this object.
    * @param The integer value to set this object's speed to.
    */
-  public void setSpeed(double newSpeed) {
+  public void setSpeed(int newSpeed) {
     this.speed = newSpeed;
   }
   
@@ -148,16 +148,13 @@ class Human extends Thread{
       this.yPosition += this.yDirection;
       new Thread(this).start();
     }
-    
-    
   }
   
   public void run(){
     delayed=false;
     try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
+      Thread.sleep(500 - (25 * this.speed));
+    } catch (InterruptedException e) {}
     delayed=true;
   }
   

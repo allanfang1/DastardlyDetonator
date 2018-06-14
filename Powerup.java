@@ -38,7 +38,6 @@ class Powerup extends Obstruction {
     else if (this.powerupID == 3) {
       player.addHealth();
     }
-    System.out.println(powerupID);
     return player;
   }
 
