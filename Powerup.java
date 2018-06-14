@@ -10,6 +10,11 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+
+/**
+ * Powerup
+ * Represents a powerup.
+ */
 class Powerup extends Obstruction {
   /* Powerup list:
    * 0 = speed

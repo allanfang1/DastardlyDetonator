@@ -10,6 +10,11 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+
+/**
+ * Crate
+ * Represents a destructible crate in the map.
+ */
 class Crate extends Obstruction {
   int height=32;
   int width=32;

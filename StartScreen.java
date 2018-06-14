@@ -16,6 +16,11 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+
+/**
+ * StartScreen
+ * Represents the starting screen of the game.
+ */
 class StartScreen extends JFrame {
 
   public static void main(String[] args) {

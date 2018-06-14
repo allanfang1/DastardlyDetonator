@@ -10,6 +10,11 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+
+/**
+ * Bomb
+ * Represents a bomb placed in the map.
+ */
 class Bomb extends Obstruction {
   private int blastRange;
   private double explodeTime;

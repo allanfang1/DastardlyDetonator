@@ -11,6 +11,11 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+
+/**
+ * Explosion
+ * Represents an explosion from a bomb.
+ */
 class Explosion extends Obstruction {
   private int range;
   private int gridX, gridY;

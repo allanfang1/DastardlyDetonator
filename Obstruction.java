@@ -4,6 +4,10 @@
  * June 14 2018 
  */ 
 
+/**
+ * Obstruction
+ * Represents an unpassable block.
+ */
 abstract class Obstruction {
   //Coordinates of this obstruction
   public int xPosition, yPosition;

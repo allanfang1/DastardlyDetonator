@@ -10,6 +10,10 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+/**
+ * Human
+ * Represents a player in the game.
+ */
 class Human extends Thread{
   private int maxBombs;
   private int currentBombs = 0;
